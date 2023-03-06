@@ -1,0 +1,81 @@
+[
+  {
+    "id": "11",
+    "name": "Titos",
+    "location": "Indonesia",
+    "description": "91492 Florence Terrace",
+    "price": 92,
+    "rooms": 3
+  },
+  {
+    "id": " 12",
+    "name": "Westleigh",
+    "location": "Philippines",
+    "description": "4163 Saint Paul Drive",
+    "price": 42,
+    "rooms": 65
+  },
+  {
+    "id": "13",
+    "name": "Ashleigh",
+    "location": "Sweden",
+    "description": "36143 Dennis Plaza",
+    "price": 59,
+    "rooms": 18
+  },
+  {
+    "id": "14",
+    "name": "Rasia",
+    "location": "France",
+    "description": "55 Fairfield Circle",
+    "price": 61,
+    "rooms": 4
+  },
+  {
+    "id": "15",
+    "name": "Alphonse",
+    "location": "Latvia",
+    "description": "8 Mitchell Plaza",
+    "price": 83,
+    "rooms": 36
+  },
+  {
+    "id": "16",
+    "name": "Silvio",
+    "location": "Brazil",
+    "description": "83401 Blackbird Avenue",
+    "rooms": 89
+  },
+  {
+    "id": "17",
+    "name": "Stefan",
+    "location": "China",
+    "description": "84 Onsgard Terrace",
+    "price": 44,
+    "rooms": 93
+  },
+  {
+    "id": "18",
+    "name": "Rob",
+    "location": "Indonesia",
+    "description": "7 Schiller Crossing",
+    "price": 55,
+    "rooms": 77
+  },
+  {
+    "id": "19",
+    "name": "Leeann",
+    "location": "Sweden",
+    "description": "044 Hoepker Park",
+    "price": 82,
+    "rooms": 3
+  },
+  {
+    "id": "20",
+    "name": "Massimo",
+    "location": "Norway",
+    "description": "35 Summerview Hill",
+    "price": 65,
+    "rooms": 85
+  }
+]

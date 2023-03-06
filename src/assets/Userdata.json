@@ -1,0 +1,25 @@
+{
+  "users": [
+    {
+      "username": "admin",
+      "password": "admin123",
+      "type": "admin",
+      "name": "Admin",
+      "id" : 1
+    },
+    {
+      "username": "vani",
+      "password": "vani123",
+      "type": "user",
+      "name": "vani Prasad",
+      "id" : 2
+    },
+    {
+      "username": "hoteladmin",
+      "password": "hoteladmin123",
+      "type": "hoteladmin",
+      "name": "Hotel Admin",
+      "id" : 3
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+.nav {
+    display: flex;
+    align-items: center;
+    background-color: #21222a;
+    height: 20px;
+    padding: 30px 25px;
+    justify-content: space-between;
+  }
+  
+  .nav h3 {
+    color: red;
+    cursor: pointer;
+  }
+  
+  .nav-items {
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .nav-items > li {
+    padding: 10px;
+    color: white;
+  }
+  
+  .profile-pic {
+    font-size: 30px;
+    text-align: center;
+    background: darkblue;
+    font-weight: 800;
+    cursor: pointer;
+    outline: royalblue 2px solid;
+  }
+  
+  .profile-name {
+    font-size: 30px;
+    text-align: center;
+  }
+  

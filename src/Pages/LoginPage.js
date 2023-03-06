@@ -1,82 +1,82 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { ValidateUser } from "../Functions/ValidateUser.js";
-import { GetUsers } from "../Hooks/GetUsers.js";
+import userData from "../assets/Userdata.json";
+import "../Styles/LoginPage.css";
 
-
-const Login = () => {
+function LoginPage() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [userType, setUserType] = useState("");
+  const [error, setError] = useState("");
   const navigate = useNavigate();
-  const [users] = GetUsers();
 
-  const [formErrors, setFormErrors] = useState({});
-  const [formData, setFormData] = React.useState({
-    userName: "",
-    passWord: "",
-    err: "",
-  });
-
-  function handleChange(event) {
-    setFormData((prevFormData) => {
-      return {
-        ...prevFormData,
-        [event.target.name]: event.target.value,
-      };
-    });
-  }
-
-  const handleSubmit = (event) => {
+  const handleLogin = (event) => {
     event.preventDefault();
-    const errors = ValidateUser(users, formData);
-    setFormErrors(ValidateUser(users, formData));
-    if (errors.err === false) {
-      navigate("/Home");
+
+    const user = userData.users.find(
+      (user) =>
+        user.username === username &&
+        user.password === password &&
+        user.type === userType
+    );
+    if (user) {
+      
+      if (user.type === "admin") {
+        navigate("/AdminPage");
+      } else if (user.type === "user") {
+        navigate("/UserPage");
+      } else if (user.type === "hoteladmin") {
+        navigate("/HotelAdminPage");
+      }
+      localStorage.setItem("selectedUser", JSON.stringify(user));
+      console.log(user);
+    } else {
+      setError("Invalid username or password");
     }
   };
 
-
   return (
-    <div className="login">
-    Hotel Management System
-      <div className="login__container">
-        <h1>Sign-in</h1>
-
-        <form onSubmit={handleSubmit} className="login-form">
-          <h5>E-mail</h5>
-
+    <div className="Login">
+      <h1>Login Page</h1>
+      <form onSubmit={handleLogin}>
+        <label>
+          Username:
           <input
-            className="Email"
-            type="email"
-            placeholder="Email address"
-            name="userName"
-            value={formData.userName}
-            onChange={handleChange}
-            required
+            type="text"
+            value={username}
+            onChange={(event) => setUsername(event.target.value)}
           />
-
-          <h5>Password</h5>
-
+        </label>
+        <br />
+        <label>
+          Password:
           <input
-            className="Password"
             type="password"
-            placeholder="Password"
-            name="passWord"
-            value={formData.passWord}
-            onChange={handleChange}
-            required
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
           />
-       
-          
-          <p>{formErrors.userName}</p>
-
-          <button type="submit" className="login-button">
-            Log In
-          </button>
-        </form>
-
-       
-      </div>
+        </label>
+        <br />
+        <label>
+          User Type:
+          <select
+            value={userType}
+            onChange={(event) => setUserType(event.target.value)}
+          >
+            <option value="">Select User Type</option>
+            {userData.users.map((user) => (
+              <option key={user.id} value={user.type}>
+                {user.type}
+              </option>
+            ))}
+          </select>
+        </label>
+        <br />
+        <button type="submit">Login</button>
+      </form>
+      {error && <div className="error">{error}</div>}
     </div>
   );
-};
+}
 
-export default Login;
+export default LoginPage;
