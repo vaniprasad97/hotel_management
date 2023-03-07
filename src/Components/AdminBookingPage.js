@@ -1,8 +1,12 @@
 import React from 'react'
+import Header from './Header'
 
 function AdminBookingPage() {
   return (
-    <div>AdminBookingPage</div>
+  
+    <div><Header/>
+    <h1> No Bookings!!!!!!!</h1>
+    </div>
   )
 }
 

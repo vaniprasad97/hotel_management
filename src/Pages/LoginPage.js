@@ -20,7 +20,6 @@ function LoginPage() {
         user.type === userType
     );
     if (user) {
-      
       if (user.type === "admin") {
         navigate("/AdminPage");
       } else if (user.type === "user") {
@@ -31,7 +30,7 @@ function LoginPage() {
       localStorage.setItem("selectedUser", JSON.stringify(user));
       console.log(user);
     } else {
-      setError("Invalid username or password");
+      setError("Invalid username or password or type");
     }
   };
 
