@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Header from "../Components/Header";
 import hotelsData from "../assets/Hoteldata.json";
 import "../Styles/AdminPage.css";
 import { Link } from "react-router-dom";
 import Modal from "react-modal";
+import axios from "axios";
 
 const HotelList = () => {
   const [hotels, setHotels] = useState(hotelsData);
@@ -14,8 +15,13 @@ const HotelList = () => {
   });
   const [showModal, setShowModal] = useState(false);
   const [hotelToDelete, setHotelToDelete] = useState(null);
-  const PAGE_SIZE = 3; 
+  const PAGE_SIZE = 3;
   const [currentPage, setCurrentPage] = useState(1);
+  const data = { hotels };
+
+  const instance = axios.create({
+    baseURL: 'https://crudcrud.com/api/984735ada1b34369b3bac3b5ae1cf0e8',
+  });
 
   const totalPages = Math.ceil(hotels.length / PAGE_SIZE);
   const handlePageChange = (pageNumber) => {
@@ -30,17 +36,48 @@ const HotelList = () => {
   const handleInputChange = (event) => {
     setNewHotel({ ...newHotel, [event.target.name]: event.target.value });
   };
-
+   const handleAdd = (event) => {
+    event.preventDefault();
+    instance.post("/hotels", data, {
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+      },
+    })
+    .then((response) => {
+      setHotels([...hotels, { ...newHotel, id: response.data._id }]);
+      setNewHotel({
+        name: "",
+        description: "",
+        location: "",
+      });
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+  };
+   
   const handleAddHotel = (event) => {
     event.preventDefault();
-    setHotels([...hotels, { ...newHotel, id: hotels.length + 1 }]);
-    setNewHotel({
-      name: "",
-      description: "",
-      location: "",
+    instance.post("/hotels", newHotel, {
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+      },
+    })
+    .then((response) => {
+      setHotels([...hotels, { ...newHotel, id: response.data._id }]);
+      setNewHotel({
+        name: "",
+        description: "",
+        location: "",
+      });
+    })
+    .catch((error) => {
+      console.error(error);
     });
   };
 
+  
+  
   const handleDeleteHotel = (id) => {
     setShowModal(true);
     setHotelToDelete(id);
@@ -98,7 +135,7 @@ const HotelList = () => {
           ))}
         </div>
       )}
-
+      <button onClick={handleAdd}> Post data </button>
       <h1>Add hotel to the List</h1>
       <form className="Addform" onSubmit={handleAddHotel}>
         <label>
