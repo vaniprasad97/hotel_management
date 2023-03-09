@@ -9,6 +9,7 @@ import AdminBookingPage from "./Components/AdminBookingPage";
 function App() {
   return (
     <div>
+      <h1>Test React</h1>
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route path="/AdminPage" element={<AdminPage />} />
