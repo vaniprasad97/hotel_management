@@ -124,4 +124,26 @@ button[type="submit"] {
 .pagination button.disabled {
   color: #ccc;
   pointer-events: none;
+ }
+ .search-button {
+  padding: 15px;
+  background-color: #0077cc;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 20px;
+ 
 }
+
+ 
+.search-container {
+  color: rgb(23, 95, 124);
+  text-align: center;
+  display: inline-block;
+  width: 200px;
+  position: relative;
+  left: 500px;
+}
+
+
