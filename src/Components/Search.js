@@ -1,15 +1,14 @@
 import React, { useState } from "react";
 import "../Styles/AdminPage.css"
-import axios from "axios";
 import { useEffect } from "react";
+import instance from "../axiosconfig";
 
 const Search = ({ handleSearchResult }) => {
     const [hotelsData, setHotelsData] = useState([]);
   const [searchText, setSearchText] = useState("");
 
   useEffect(() => {
-    axios
-      .get("https://crudcrud.com/api/59f0fd0edf8c44458af13e3b0ff47a90/hotels")
+    instance.get("/hotels")
       .then((response) => {
         setHotelsData(response.data);
       })
@@ -18,9 +17,11 @@ const Search = ({ handleSearchResult }) => {
       });
   }, []);
 
+
   const handleSearchTextChange = (event) => {
     setSearchText(event.target.value);
-  }; // function to handle the user input and store it in a state called searchText
+    // function to handle the user input and store it in a state called searchText
+  }; 
 
   const handleSearch = () => {
     const searchResult = hotelsData.filter(
@@ -29,7 +30,8 @@ const Search = ({ handleSearchResult }) => {
         hotel.location.toLowerCase().includes(searchText.toLowerCase())
     );
     handleSearchResult(searchResult);
-  }; // function to check whether the searching data matches with hotels data.
+     // function to check whether the searching data matches with hotels data.
+  };
 
   return (
     <div className="search-container">

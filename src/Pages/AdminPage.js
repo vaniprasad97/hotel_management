@@ -17,6 +17,12 @@ function AdminPage() {
       Click here
     </Link>
     </p> 
+    <p>To Manage Hotel Admin
+    <Link to="/AddHotelAdmin" relative="path">
+      Click here
+    </Link>
+    </p> 
+    
   
       </div>
   )

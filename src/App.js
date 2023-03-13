@@ -5,6 +5,7 @@ import UserPage from "./Pages/UserPage";
 import HotelAdminPage from "./Pages/HotelAdminPage";
 import HotelList from "./Components/Hotellist";
 import AdminBookingPage from "./Components/AdminBookingPage";
+import AddHotelAdmin from "./Components/AddHotelAdmin";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/UserPage" element={<UserPage />} />
         <Route path="/Hotellist" element={<HotelList />} />
         <Route path="/AdminBookingPage" element={<AdminBookingPage />} />
+        <Route path="/AddHotelAdmin" element={<AddHotelAdmin />} />
       </Routes>
     </div>
   );

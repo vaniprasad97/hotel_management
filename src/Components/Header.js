@@ -1,12 +1,21 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "../Styles/Header.css";
+import "../Styles/Header.css";const Header = () => {
+  const loggedInUser = localStorage.getItem("selectedUser");
+  let firstWord;
 
-const Header = () => {
-  const loggedInUser = JSON.parse(localStorage.getItem("selectedUser"));
-  const firstWord = loggedInUser.name.match(/\b(\w)/g).join("");
+  if (loggedInUser) {
+    try {
+      const userObj = JSON.parse(loggedInUser);
+      console.log(userObj);
+      firstWord = userObj.name.match(/\b(\w)/g).join("");
+    } catch (error) {
+      console.error("Error parsing user data from local storage:", error);
+    }
+  }
+
   const navigate = useNavigate();
-  
+
   function signOut() {
     navigate("/");
   }
@@ -15,17 +24,20 @@ const Header = () => {
     <div>
       <header>
         <nav className="nav">
-          <h3 onClick={signOut}>Logout</h3>
+          {loggedInUser && (
+            <h3 onClick={signOut}>Logout</h3>
+          )}
           <ul className="nav-items">
             <li className="profile-pic">
               {firstWord}
             </li>
-            <li className="profile-name">{loggedInUser.name}</li>
+            <li className="profile-name">{loggedInUser && JSON.parse(loggedInUser).name}</li>
           </ul>
         </nav>
       </header>
     </div>
   );
 };
+ export default Header;
 
-export default Header;
+

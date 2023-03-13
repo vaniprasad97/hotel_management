@@ -15,11 +15,20 @@
       "id" : 2
     },
     {
-      "username": "hoteladmin",
+      "username": "hayatadmin",
       "password": "hoteladmin123",
       "type": "hoteladmin",
       "name": "Hotel Admin",
+      "hotelname" : "hayat",
       "id" : 3
+    },
+    {
+      "username": "gokulamadmin",
+      "password": "hoteladmin123",
+      "type": "hoteladmin",
+      "name": "Hotel Admin",
+      "hotelname" : "gokulam",
+      "id" : 4
     }
   ]
 }
