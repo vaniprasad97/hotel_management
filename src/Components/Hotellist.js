@@ -7,7 +7,6 @@ import Modal from "react-modal";
 import Search from "../Components/Search";
 import instance from "../axiosconfig";
 
-
 const HotelList = () => {
   const [hotels, setHotels] = useState([]);
   const [newHotel, setNewHotel] = useState({
@@ -22,37 +21,34 @@ const HotelList = () => {
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    instance.get("/hotels")
+    instance
+      .get("/hotels")
       .then((response) => {
         setHotels(response.data);
       })
       .catch((error) => {
         console.error(error);
       });
-       // fetch the data from the api and store it an state called Hotels
+    // fetch the data from the api and store it an state called Hotels
   }, []);
- 
-  
+
   const totalPages = Math.ceil(hotels.length / PAGE_SIZE);
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
-      //whenever clicks the button, the pagenumber is passed as argument and set current page number 
-      // to the state CurrentPage.
-      
+    //whenever clicks the button, the pagenumber is passed as argument and set current page number
+    // to the state CurrentPage.
   };
 
   const getPageHotels = () => {
     const startIndex = (currentPage - 1) * PAGE_SIZE;
     const endIndex = startIndex + PAGE_SIZE;
     return hotels.slice(startIndex, endIndex);
-     // Function to find the start and end element to be displayed on the page.
-  //Start index is the index of the
-  //element displayed first on the current page and
-  //endindex is the element should displayed on the last of the page and slice it.
-  // and slice based on the start.
+    // Function to find the start and end element to be displayed on the page.
+    //Start index is the index of the
+    //element displayed first on the current page and
+    //endindex is the element should displayed on the last of the page and slice it.
+    // and slice based on the start.
   };
-
- 
 
   const validateForm = () => {
     let errors = {};
@@ -68,19 +64,16 @@ const HotelList = () => {
     // Function to check whether the values ith the adding new hotel form is empty or not.
     //if it is empty it shows the error message
   };
-  
 
   const handleSearchResult = (searchResult) => {
     setHotels(searchResult);
     // the functions takes searchResult as argument and store it in state Hotels.
   };
 
-
   const handleInputChange = (event) => {
     setNewHotel({ ...newHotel, [event.target.name]: event.target.value });
-      // Function for handling the user input and store it to the state NewHotel
+    // Function for handling the user input and store it to the state NewHotel
   };
-
 
   const handleAddHotel = (event) => {
     event.preventDefault();
@@ -106,20 +99,18 @@ const HotelList = () => {
     } else {
       setErrors(errors);
     }
-      // function to add new hotel, while clicking the add button, the data will post to the api and
-  //also store to the state hotel. It also check the error. if there is no error, it will post data to the api
-  // else store the errors in the error state.
+    // function to add new hotel, while clicking the add button, the data will post to the api and
+    //also store to the state hotel. It also check the error. if there is no error, it will post data to the api
+    // else store the errors in the error state.
   };
-
 
   const handleDeleteHotel = (id) => {
     setShowModal(true);
     setHotelToDelete(id);
-     // function to delete hotel, pass id as paramter for deletion and 
-     //store the value true to the state showmodal and
-  //current id save to the state state Hoteltodelete.
+    // function to delete hotel, pass id as paramter for deletion and
+    //store the value true to the state showmodal and
+    //current id save to the state state Hoteltodelete.
   };
- 
 
   const handleConfirmDelete = () => {
     instance
@@ -134,10 +125,9 @@ const HotelList = () => {
       .catch((error) => {
         console.error(error);
       });
-        // When called, it filters out the hotel to be deleted based on the id
-  //from an array of hotels based on its id and assigns the resulting array to updatedHotels
+    // When called, it filters out the hotel to be deleted based on the id
+    //from an array of hotels based on its id and assigns the resulting array to updatedHotels
   };
-
 
   return (
     <div>

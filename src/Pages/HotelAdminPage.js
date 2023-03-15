@@ -1,56 +1,81 @@
-import React, { useState, useEffect } from 'react';
-import instance from '../axiosconfig';
+import React, { useState } from "react";
+import instance from "../axiosconfig";
+import Header from "../Components/Header";
+import "../Styles/HotelAdminPage.css";
 
-function HotelAdminPage({ hotelId }) {
-  const [roomNumber, setRoomNumber] = useState('');
-  const [price, setPrice] = useState('');
+function HotelAdminPage() {
+  const [roomName, setRoomName] = useState("");
+  const [roomType, setRoomType] = useState("");
+  const [pricePerNight, setPricePerNight] = useState();
+  const [Guest, SetGuest] = useState("");
 
-  useEffect(() => {
-    async function fetchHotelData() {
-      try {
-        const response = await instance.get(`/assignhotel?name=${hotelId}`);
-        //  const response = await instance.get(`/assignhotel/${hotelId}`);
-         console.log(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    fetchHotelData();
-  }, [hotelId]);
+  const hotelId = JSON.parse(localStorage.getItem("UserId"));
   console.log(hotelId);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    // try {
-    //   const response = await instance.post('`/rooms', {
-    //     roomNumber,
-    //     price,
-    //   });
-     try {
-      const response = await instance.post(`/rooms/${hotelId}`, {
-        roomNumber,
-        price,
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const data = {
+      roomName,
+      roomType,
+      pricePerNight,
+      hotelId,
+    };
+    instance
+      .post("/rooms", data)
+      .then((response) => {
+        console.log("room assigned successfully");
+      })
+      .catch((error) => {
+        console.log("Error adding room:", error);
       });
-      console.log(response.data);
-    } catch (error) {
-      console.error(error);
-    }
+    // by clicking the button it will pass the user inputs- roomname, roomtype, price and also passes the hotelid
+    //    of the loggedin user.
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Room number:
-        <input type="text" value={roomNumber} onChange={(e) => setRoomNumber(e.target.value)} />
-      </label>
-      <br />
-      <label>
-        Price:
-        <input type="text" value={price} onChange={(e) => setPrice(e.target.value)} />
-      </label>
-      <br />
-      <button type="submit">Add Room</button>
-    </form>
+    <div>
+      <Header />
+      <form className="Addroomform" onSubmit={handleSubmit}>
+        <label>
+          Room name:
+          <input
+            type="text"
+            value={roomName}
+            onChange={(e) => setRoomName(e.target.value)}
+          />
+        </label>
+        <br />
+        <label>
+          Room type:
+          <input
+            type="text"
+            value={roomType}
+            onChange={(e) => setRoomType(e.target.value)}
+          />
+        </label>
+        <br />
+        <label>
+          Price per night:
+          <input
+            type="number"
+            value={pricePerNight}
+            onChange={(e) => setPricePerNight(e.target.value)}
+          />
+        </label>
+        <label>
+          Guest
+          <input
+            type="text"
+            value={Guest}
+            onChange={(e) => SetGuest(e.target.value)}
+          />
+        </label>
+        <br />
+        <button className="Addroom" type="submit">
+          Add room
+        </button>
+      </form>
+    </div>
   );
 }
 

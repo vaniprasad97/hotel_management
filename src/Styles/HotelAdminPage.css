@@ -1,0 +1,28 @@
+.Addroomform {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+
+  .Addroom
+  {
+    margin: 0;
+    position: relative;
+    left: 42%;
+    justify-content: center;
+    margin: 10px;
+    padding: 10px;
+    text-align: center;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #0069d9;
+  }

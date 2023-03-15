@@ -26,12 +26,17 @@ function LoginPage() {
         navigate("/UserPage");
       } else if (user.type === "hoteladmin") {
         navigate("/HotelAdminPage");
+        localStorage.setItem("UserId", JSON.stringify(user.id));
+        console.log(user.id);
       }
       localStorage.setItem("selectedUser", JSON.stringify(user));
       console.log(user);
     } else {
       setError("Invalid username or password or type");
     }
+    //if the user inputted correct login credentials and type,
+    // and navigating to the appropriate page based on the user's type
+    //and also setting the user's ID in localStorage.
   };
 
   return (

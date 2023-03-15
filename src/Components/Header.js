@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "../Styles/Header.css";const Header = () => {
+import "../Styles/Header.css";
+const Header = () => {
   const loggedInUser = localStorage.getItem("selectedUser");
   let firstWord;
 
@@ -24,20 +25,16 @@ import "../Styles/Header.css";const Header = () => {
     <div>
       <header>
         <nav className="nav">
-          {loggedInUser && (
-            <h3 onClick={signOut}>Logout</h3>
-          )}
+          {loggedInUser && <h3 onClick={signOut}>Logout</h3>}
           <ul className="nav-items">
-            <li className="profile-pic">
-              {firstWord}
+            <li className="profile-pic">{firstWord}</li>
+            <li className="profile-name">
+              {loggedInUser && JSON.parse(loggedInUser).name}
             </li>
-            <li className="profile-name">{loggedInUser && JSON.parse(loggedInUser).name}</li>
           </ul>
         </nav>
       </header>
     </div>
   );
 };
- export default Header;
-
-
+export default Header;
