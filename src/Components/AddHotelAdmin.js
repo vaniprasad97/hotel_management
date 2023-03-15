@@ -37,7 +37,7 @@ console.log(hotelAdmins);
       hotelId: selectedHotel,
       adminId: selectedAdmin
     }
-    axios.post('https://crudcrud.com/api/61744ad5fbc5466b997a2e2648c38f75/assignhotel',data)
+    instance.post('/assignhotel',data)
       .then(response => {
         console.log('Hotel assigned successfully');
       })

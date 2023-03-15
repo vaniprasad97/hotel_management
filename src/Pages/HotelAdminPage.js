@@ -1,19 +1,37 @@
-import { useState } from "react";
-import instance from "../axiosconfig";
-import Header from "../Components/Header";
+import React, { useState, useEffect } from 'react';
+import instance from '../axiosconfig';
 
 function HotelAdminPage({ hotelId }) {
-  const [roomName, setRoomName] = useState("");
-  const [price, setPrice] = useState("");
-  const loggedInUser = JSON.parse(localStorage.getItem("selectedUser"));
-  console.log(loggedInUser);
+  const [roomNumber, setRoomNumber] = useState('');
+  const [price, setPrice] = useState('');
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    try {
-      await instance.post(`/hotels/${hotelId}/rooms`, { name: roomName, price });
-      setRoomName("");
-      setPrice("");
+  useEffect(() => {
+    async function fetchHotelData() {
+      try {
+        const response = await instance.get(`/assignhotel?name=${hotelId}`);
+        //  const response = await instance.get(`/assignhotel/${hotelId}`);
+         console.log(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    fetchHotelData();
+  }, [hotelId]);
+  console.log(hotelId);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    // try {
+    //   const response = await instance.post('`/rooms', {
+    //     roomNumber,
+    //     price,
+    //   });
+     try {
+      const response = await instance.post(`/rooms/${hotelId}`, {
+        roomNumber,
+        price,
+      });
+      console.log(response.data);
     } catch (error) {
       console.error(error);
     }
@@ -21,41 +39,19 @@ function HotelAdminPage({ hotelId }) {
 
   return (
     <form onSubmit={handleSubmit}>
-
-      <Header/>
-
-      <label htmlFor="roomName">Room name:</label>
-      <input type="text" id="roomName" value={roomName} onChange={(event) => setRoomName(event.target.value)} />
-      <label htmlFor="price">Price:</label>
-      <input type="text" id="price" value={price} onChange={(event) => setPrice(event.target.value)} />
+      <label>
+        Room number:
+        <input type="text" value={roomNumber} onChange={(e) => setRoomNumber(e.target.value)} />
+      </label>
+      <br />
+      <label>
+        Price:
+        <input type="text" value={price} onChange={(e) => setPrice(e.target.value)} />
+      </label>
+      <br />
       <button type="submit">Add Room</button>
     </form>
   );
 }
 
 export default HotelAdminPage;
-// const handleAddHotel = (event) => {
-//   event.preventDefault();
-//   const errors = validateForm();
-//   if (Object.keys(errors).length === 0) {
-//     instance
-//       .post("/hotels", newHotel, {
-//         headers: {
-//           "Content-Type": "application/json; charset=utf-8",
-//         },
-//       })
-//       .then((response) => {
-//         setHotels([...hotels, { ...newHotel, id: response.data._id }]);
-//         setNewHotel({
-//           name: "",
-//           description: "",
-//           location: "",
-//         });
-//       })
-//       .catch((error) => {
-//         console.error(error);
-//       });
-//   } else {
-//     setErrors(errors);
-//   }
-// };
