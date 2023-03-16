@@ -27,16 +27,15 @@ function LoginPage() {
       } else if (user.type === "hoteladmin") {
         navigate("/HotelAdminPage");
         localStorage.setItem("UserId", JSON.stringify(user.id));
-        console.log(user.id);
       }
       localStorage.setItem("selectedUser", JSON.stringify(user));
-      console.log(user);
     } else {
       setError("Invalid username or password or type");
     }
-    //if the user inputted correct login credentials and type,
-    // and navigating to the appropriate page based on the user's type
-    //and also setting the user's ID in localStorage.
+      // The function then checks whether the entered username, password, 
+     //and userType match with any user data in the userData.users array using the find() method
+    // If a user is found with matching credentials and type, 
+    //the function uses the navigate()  to redirect the user to the appropriate page based on their user type.
   };
 
   return (

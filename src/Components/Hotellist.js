@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Header from "../Components/Header";
-import axios from "axios";
 import "../Styles/AdminPage.css";
 import { Link } from "react-router-dom";
 import Modal from "react-modal";
@@ -29,7 +28,7 @@ const HotelList = () => {
       .catch((error) => {
         console.error(error);
       });
-    // fetch the data from the api and store it an state called Hotels
+    // fetch the data from the api/hotels and store it in a state called Hotels
   }, []);
 
   const totalPages = Math.ceil(hotels.length / PAGE_SIZE);
@@ -79,30 +78,39 @@ const HotelList = () => {
     event.preventDefault();
     const errors = validateForm();
     if (Object.keys(errors).length === 0) {
-      instance
-        .post("/hotels", newHotel, {
-          headers: {
-            "Content-Type": "application/json; charset=utf-8",
-          },
-        })
-        .then((response) => {
-          setHotels([...hotels, { ...newHotel, id: response.data._id }]);
-          setNewHotel({
-            name: "",
-            description: "",
-            location: "",
+      const nameExists = hotels.some(hotel => hotel.name === newHotel.name);
+      if (nameExists) {
+        setErrors({ name: "A hotel with this name already exists" });
+      } else {
+        instance
+          .post("/hotels", newHotel, {
+            headers: {
+              "Content-Type": "application/json; charset=utf-8",
+            },
+          })
+          .then((response) => {
+            setHotels([...hotels, { ...newHotel, id: response.data._id }]);
+            setNewHotel({
+              name: "",
+              description: "",
+              location: "",
+            });
+          })
+          .catch((error) => {
+            console.error(error);
           });
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+      }
     } else {
       setErrors(errors);
     }
-    // function to add new hotel, while clicking the add button, the data will post to the api and
-    //also store to the state hotel. It also check the error. if there is no error, it will post data to the api
+    //when the user submits a form to add a new hotel, this function 
+    // validate the form data, check if the hotel name already exists, and add the new hotel to the list of hotels.
+    // It also check the error. if there is no error, it will post data to the api
     // else store the errors in the error state.
+    //If the new hotel name already exists,
+    // it sets an error message in the errors state object using the setErrors function.
   };
+  
 
   const handleDeleteHotel = (id) => {
     setShowModal(true);
@@ -125,8 +133,9 @@ const HotelList = () => {
       .catch((error) => {
         console.error(error);
       });
-    // When called, it filters out the hotel to be deleted based on the id
-    //from an array of hotels based on its id and assigns the resulting array to updatedHotels
+   // Inside the function, the instance.delete() method is called with a URL parameter to 
+   //delete the hotel with a specific id (hotelToDelete). If the delete request is successful, 
+   //the hotels state is updated by filtering out the deleted hotel.
   };
 
   return (

@@ -4,21 +4,22 @@ import "../Styles/Header.css";
 const Header = () => {
   const loggedInUser = localStorage.getItem("selectedUser");
   let firstWord;
-
   if (loggedInUser) {
     try {
       const userObj = JSON.parse(loggedInUser);
-      console.log(userObj);
       firstWord = userObj.name.match(/\b(\w)/g).join("");
     } catch (error) {
       console.error("Error parsing user data from local storage:", error);
     }
+    // this retrieves the user data from local storage,
+    // extracts the first letter of the user's name, and assigns it to a variable called firstWord.
   }
 
   const navigate = useNavigate();
 
   function signOut() {
     navigate("/");
+    // this function is to sign out the user from the application and navigate them to the home page
   }
 
   return (

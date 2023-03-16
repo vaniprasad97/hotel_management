@@ -6,31 +6,38 @@ import "../Styles/HotelAdminPage.css";
 function HotelAdminPage() {
   const [roomName, setRoomName] = useState("");
   const [roomType, setRoomType] = useState("");
-  const [pricePerNight, setPricePerNight] = useState();
+  const [price, setPrice] = useState();
   const [Guest, SetGuest] = useState("");
-
-  const hotelId = JSON.parse(localStorage.getItem("UserId"));
-  console.log(hotelId);
-
+// use assign hotel api to fetch the adminID
+  const adminId = JSON.parse(localStorage.getItem("UserId"));
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = {
       roomName,
       roomType,
-      pricePerNight,
-      hotelId,
+      price,
+      adminId,
+      Guest
     };
     instance
       .post("/rooms", data)
       .then((response) => {
         console.log("room assigned successfully");
+        setRoomName("");
+        setRoomType("");
+        setPrice("");
+        SetGuest("");
       })
       .catch((error) => {
         console.log("Error adding room:", error);
       });
-    // by clicking the button it will pass the user inputs- roomname, roomtype, price and also passes the hotelid
-    //    of the loggedin user.
+      // The function handleSubmit is called when a form is submitted.  
+      //creates an object containing the data entered in the form fields and the user ID retrieved
+      // from local storage, and then sends this data to the rooms api using POST method. After submitting  
+      // the function clears the form fields.
   };
+  
+
 
   return (
     <div>
@@ -55,17 +62,17 @@ function HotelAdminPage() {
         </label>
         <br />
         <label>
-          Price per night:
+          Price:
           <input
-            type="number"
-            value={pricePerNight}
-            onChange={(e) => setPricePerNight(e.target.value)}
+            type="text"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
           />
         </label>
         <label>
-          Guest
+          No: of Guest:
           <input
-            type="text"
+            type="number"
             value={Guest}
             onChange={(e) => SetGuest(e.target.value)}
           />

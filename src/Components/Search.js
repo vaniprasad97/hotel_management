@@ -15,6 +15,7 @@ const Search = ({ handleSearchResult }) => {
       .catch((error) => {
         console.error(error);
       });
+      // useEffect hook that makes an GET request to retrieve a list of hotels from an API.
   }, []);
 
 
@@ -30,7 +31,11 @@ const Search = ({ handleSearchResult }) => {
         hotel.location.toLowerCase().includes(searchText.toLowerCase())
     );
     handleSearchResult(searchResult);
-     // function to check whether the searching data matches with hotels data.
+     // The function first uses the filter() method to iterate over each hotel in the hotelsData array.
+     // it checks whether the name or location contain the search text entered by the user.
+     // The toLowerCase() method is for search case-insensitive.
+     // If a hotel matches the search query, it is added to a new array called searchResult.
+     // the handleSearchResult function is called and passed the searchResult array as an argument
   };
 
   return (

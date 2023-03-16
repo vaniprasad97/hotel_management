@@ -8,7 +8,7 @@ function AddHotelAdmin() {
   const [hotels, setHotels] = useState([]);
   const [selectedHotel, setSelectedHotel] = useState(null);
   const [selectedAdmin, setSelectedAdmin] = useState(null);
-  console.log(hotelAdmins);
+
   useEffect(() => {
     instance
       .get("/hotels")
@@ -19,17 +19,23 @@ function AddHotelAdmin() {
         console.log("Error fetching hotels", error);
       });
   }, []);
+  //This code uses the useEffect hook to fetch data from a server using an HTTP GET request
+  // when the component mounts. The code creates an effect that sets the hotels state variable
+  // with the data received from the server using the setHotels function.
+  // . If the GET request fails, an error message is logged to the console.
 
   const handleHotelChange = (event) => {
     setSelectedHotel(event.target.value);
     // function for handling the user input and store the data in the state selectedhotel
+    // The function is for handling the userinput updates the state variable selectedHotel with the value of the selected hotel. This function
+    // is used for handling the user input and storing the selected hotel data in the state variable selectedHotel.
   };
 
   const handleAdminChange = (event) => {
     setSelectedAdmin(event.target.value);
-    //function for handling the user input and store the data in the state selectedAdmin
+    //It calls the setSelectedAdmin function and passes it the value property of the event.target object.
+    // This updates the state variable selectedAdmin with the new value selected by the user.
   };
-
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = {
@@ -40,12 +46,17 @@ function AddHotelAdmin() {
       .post("/assignhotel", data)
       .then((response) => {
         console.log("Hotel assigned successfully");
+        setSelectedHotel(null);
+        setSelectedAdmin(null);
       })
       .catch((error) => {
         console.log("Error assigning hotel:", error);
       });
-    // while clicking submit function, it stores the name of hotel, admin and their corresponding id.
+    // It creates an object called data that contains two properties: hotelName and adminId. 
+    //These properties are assigned values from the selectedHotel and selectedAdmin state variables, respectively.
+    // Then it post the data to the api/assignhotel
   };
+
 
   return (
     <div>
