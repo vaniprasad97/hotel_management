@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import instance from "../axiosconfig";
 
 const Search = ({ handleSearchResult }) => {
-    const [hotelsData, setHotelsData] = useState([]);
+  const [hotelsData, setHotelsData] = useState([]);
   const [searchText, setSearchText] = useState("");
 
   useEffect(() => {

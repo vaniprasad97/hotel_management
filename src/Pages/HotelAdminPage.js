@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import instance from "../axiosconfig";
 import Header from "../Components/Header";
 import "../Styles/HotelAdminPage.css";
@@ -8,16 +8,31 @@ function HotelAdminPage() {
   const [roomType, setRoomType] = useState("");
   const [price, setPrice] = useState();
   const [Guest, SetGuest] = useState("");
-// use assign hotel api to fetch the adminID
-  const adminId = JSON.parse(localStorage.getItem("UserId"));
+  const [Assignhotel, setAssignhotel] = useState([]);
+
+useEffect(() => {
+  instance.get("/assignhotel")
+    .then((response) => {
+      setAssignhotel(response.data);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+    // useEffect hook that makes a Get request to retrieve data from the api/assignhotel.
+    //And stores it in the AssignhotelAPI
+}, []);
+
+const adminId = JSON.parse(localStorage.getItem("UserId"));
+const now = new Date();
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = {
       roomName,
       roomType,
       price,
-      adminId,
-      Guest
+      Guest,
+      created_by: adminId,
+      created_at: now.toISOString()
     };
     instance
       .post("/rooms", data)

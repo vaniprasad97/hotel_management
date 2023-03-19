@@ -39,7 +39,7 @@ select {
   background-color: #fff;
 }
 
-button {
+.loginbutton {
   margin-left: auto;
   margin-right: auto; 
   display: block;

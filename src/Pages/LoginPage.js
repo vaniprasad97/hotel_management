@@ -25,8 +25,8 @@ function LoginPage() {
       } else if (user.type === "user") {
         navigate("/UserPage");
       } else if (user.type === "hoteladmin") {
-        navigate("/HotelAdminPage");
         localStorage.setItem("UserId", JSON.stringify(user.id));
+        navigate("/HotelAdminPage");
       }
       localStorage.setItem("selectedUser", JSON.stringify(user));
     } else {
@@ -39,6 +39,7 @@ function LoginPage() {
   };
 
   return (
+    <div>
     <div className="Login">
       <h1>Login Page</h1>
       <form onSubmit={handleLogin}>
@@ -75,9 +76,11 @@ function LoginPage() {
           </select>
         </label>
         <br />
-        <button type="submit">Login</button>
+        <button className="loginbutton"
+         type="submit">Login</button>
       </form>
       {error && <div className="error">{error}</div>}
+    </div>
     </div>
   );
 }

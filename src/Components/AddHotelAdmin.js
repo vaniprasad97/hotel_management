@@ -46,8 +46,8 @@ function AddHotelAdmin() {
       .post("/assignhotel", data)
       .then((response) => {
         console.log("Hotel assigned successfully");
-        setSelectedHotel(null);
-        setSelectedAdmin(null);
+        setSelectedHotel("");
+        setSelectedAdmin("");
       })
       .catch((error) => {
         console.log("Error assigning hotel:", error);

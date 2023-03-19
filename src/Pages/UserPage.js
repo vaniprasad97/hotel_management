@@ -2,9 +2,11 @@
 import React, { useState , useEffect } from 'react';
 import Header from '../Components/Header';
 import instance from '../axiosconfig';
+import { Link } from 'react-router-dom';
+import BookingForm from '../Components/BookingForm';
 
 
-function UserPage() {
+function UserPage(props) {
   const [hotels, setHotels] = useState([]);
 
   useEffect(() => {
@@ -28,8 +30,10 @@ function UserPage() {
           <li key={hotel.id}>
             <h3>{hotel.name}</h3>
             <p>{hotel.description}</p>
-            <button className='viewdetails'> view details  
-            </button>
+            <Link to={`/ViewDetails/${hotel._id}`}>ViewDetails</Link>
+            <div>
+            <Link to={`/BookingForm/${hotel._id}`}> Book </Link>
+            </div>
           </li>     
         ))}
       </ul>
