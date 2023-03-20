@@ -8,6 +8,10 @@ test("renders search input and button", () => {
   const searchButton = getByText("Search");
   expect(searchInput).toBeInTheDocument();
   expect(searchButton).toBeInTheDocument();
+  //to test if a Search component renders a search input and button correctly.
+  //The getByLabelText is used to obtain a reference to the search input element
+  // by searching for the label with text "Search Hotel", and the 
+  //getByText function is used to obtain a reference to the search button element by searching for the text "Search".
 });
 
 test("filters hotels based on search text", async () => {
@@ -15,7 +19,7 @@ test("filters hotels based on search text", async () => {
     {
         
       id: 1,
-      name: "Hotel A",
+      name: "Hotel A",    
       location: "City A",
     },
     {
@@ -25,20 +29,15 @@ test("filters hotels based on search text", async () => {
     },
   ];
   
-  jest.spyOn(global, "fetch").mockImplementation(() =>
-    Promise.resolve({
-      json: () => Promise.resolve(hotelsData),
-    })
-  );
-
   const handleSearchResult = jest.fn();
   const { getByLabelText, getByText } = render(
     <Search handleSearchResult={handleSearchResult} />
   );
   const searchInput = getByLabelText("Search Hotel");
   const searchButton = getByText("Search");
-
   fireEvent.change(searchInput, { target: { value: "A" } });
   fireEvent.click(searchButton);
-
+//user searching for hotels by entering a search query "A" 
+//in the search input field and clicking on the search button.
+// it checks whether the handleSearchResult works properly.
  });

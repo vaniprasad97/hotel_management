@@ -8,6 +8,7 @@ import AdminBookingPage from "./Components/AdminBookingPage";
 import AddHotelAdmin from "./Components/AddHotelAdmin";
 import ViewDetails from "./Pages/ViewDetails";
 import BookingForm from "./Components/BookingForm";
+import RoomList from "./Pages/RoomList";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/AddHotelAdmin" element={<AddHotelAdmin />} />
         <Route path="/ViewDetails/:id" element={<ViewDetails />} />
         <Route path="/BookingForm/:id" element={<BookingForm />} />
+        <Route path="/RoomList" element={<RoomList />} />
       </Routes>
     </div>
   );

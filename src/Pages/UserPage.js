@@ -29,7 +29,6 @@ function UserPage(props) {
         {hotels.map(hotel => (
           <li key={hotel.id}>
             <h3>{hotel.name}</h3>
-            <p>{hotel.description}</p>
             <Link to={`/ViewDetails/${hotel._id}`}>ViewDetails</Link>
             <div>
             <Link to={`/BookingForm/${hotel._id}`}> Book </Link>

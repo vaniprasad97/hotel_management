@@ -1,8 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import instance from "../axiosconfig";
 
 function ViewDetails() {
@@ -16,19 +15,15 @@ function ViewDetails() {
       .catch((error) => {
         console.error(error);
       });
-      // useEffect hook that makes an GET request to retrieve a list of hotels from an API.
+      // useEffect hook that makes an GET request to retrieve a list of hotels from an API and stores in a 
+      //state HotelsData
   }, []);
 
   console.log(hotelsData);
 
   const { id } = useParams();
-  console.log(id);
-
-
-
   return (
     <div>
-      <h1>Hotel Booked successfully</h1>
       {hotelsData.map((hotel) => {
   if (hotel._id === id) {
     return (

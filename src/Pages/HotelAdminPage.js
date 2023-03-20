@@ -1,4 +1,5 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import instance from "../axiosconfig";
 import Header from "../Components/Header";
 import "../Styles/HotelAdminPage.css";
@@ -6,53 +7,62 @@ import "../Styles/HotelAdminPage.css";
 function HotelAdminPage() {
   const [roomName, setRoomName] = useState("");
   const [roomType, setRoomType] = useState("");
-  const [price, setPrice] = useState();
-  const [Guest, SetGuest] = useState("");
-  const [Assignhotel, setAssignhotel] = useState([]);
+  const [price, setPrice] = useState("");
+  const [guests, setGuests] = useState("");
+  const [assignhotel, setAssignhotel] = useState([]);
+  const [message, setMessage] = useState("");
 
-useEffect(() => {
-  instance.get("/assignhotel")
-    .then((response) => {
-      setAssignhotel(response.data);
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-    // useEffect hook that makes a Get request to retrieve data from the api/assignhotel.
+  useEffect(() => {
+    instance
+      .get("/assignhotel")
+      .then((response) => {
+        setAssignhotel(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+      // useEffect hook that makes a Get request to retrieve data from the api/assignhotel.
     //And stores it in the AssignhotelAPI
-}, []);
+  }, []);
 
-const adminId = JSON.parse(localStorage.getItem("UserId"));
-const now = new Date();
+  const adminId = JSON.parse(localStorage.getItem("UserId"));
+  const now = new Date();
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = {
       roomName,
       roomType,
       price,
-      Guest,
+      guests,
       created_by: adminId,
-      created_at: now.toISOString()
+      created_at: now.toISOString(),
     };
+  // Check if the roomName already exists in the Assignhotel array
+    const roomExists = assignhotel.some((hotel) => hotel.roomName === roomName);
+    if (roomExists) {
+      setMessage("Hotel with the same name already exists.");
+      return;
+    }
+
     instance
       .post("/rooms", data)
       .then((response) => {
         console.log("room assigned successfully");
+        setMessage("Hotel added successfully");
         setRoomName("");
         setRoomType("");
         setPrice("");
-        SetGuest("");
+        setGuests("");
       })
       .catch((error) => {
         console.log("Error adding room:", error);
       });
-      // The function handleSubmit is called when a form is submitted.  
+        // The function handleSubmit is called when a form is submitted.  
       //creates an object containing the data entered in the form fields and the user ID retrieved
       // from local storage, and then sends this data to the rooms api using POST method. After submitting  
       // the function clears the form fields.
   };
-  
-
 
   return (
     <div>
@@ -85,20 +95,23 @@ const now = new Date();
           />
         </label>
         <label>
-          No: of Guest:
+          No. of guests:
           <input
             type="number"
-            value={Guest}
-            onChange={(e) => SetGuest(e.target.value)}
+            value={guests}
+            onChange={(e) => setGuests(e.target.value)}
           />
         </label>
         <br />
         <button className="Addroom" type="submit">
           Add room
         </button>
+        <p style={{ color: "red" }}>{message}</p>
+        <Link to={`/RoomList`}> Click here to see the previously added list of hotels </Link>
       </form>
     </div>
   );
 }
 
 export default HotelAdminPage;
+
