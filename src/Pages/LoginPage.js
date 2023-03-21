@@ -8,6 +8,7 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const [userType, setUserType] = useState("");
   const [error, setError] = useState("");
+  
   const navigate = useNavigate();
 
   const handleLogin = (event) => {

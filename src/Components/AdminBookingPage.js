@@ -9,7 +9,9 @@ function AdminBookingPage() {
      <Link to="/AdminPage" relative="path">
           Back To Admin Page
         </Link>
-    <h1> No Bookings!!!!!!!</h1>
+    <h1> Coming soon
+
+    </h1>
     </div>
   )
 }

@@ -39,7 +39,7 @@ function HotelAdminPage() {
       created_at: now.toISOString(),
     };
   // Check if the roomName already exists in the Assignhotel array
-    const roomExists = assignhotel.some((hotel) => hotel.roomName === roomName);
+    const roomExists = assignhotel.find((hotel) => hotel.roomName===roomName);
     if (roomExists) {
       setMessage("Hotel with the same name already exists.");
       return;
@@ -49,7 +49,7 @@ function HotelAdminPage() {
       .post("/rooms", data)
       .then((response) => {
         console.log("room assigned successfully");
-        setMessage("Hotel added successfully");
+        setMessage("Room added successfully");
         setRoomName("");
         setRoomType("");
         setPrice("");

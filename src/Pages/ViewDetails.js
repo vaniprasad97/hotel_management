@@ -6,6 +6,7 @@ import instance from "../axiosconfig";
 
 function ViewDetails() {
   const [hotelsData, setHotelsData] = useState([]);
+  const { id } = useParams();
 
   useEffect(() => {
     instance.get("/hotels")
@@ -20,8 +21,6 @@ function ViewDetails() {
   }, []);
 
   console.log(hotelsData);
-
-  const { id } = useParams();
   return (
     <div>
       {hotelsData.map((hotel) => {
