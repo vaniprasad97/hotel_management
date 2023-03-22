@@ -26,3 +26,19 @@
     cursor: pointer;
     background-color: #0069d9;
   }
+  .assignhotelform {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .assignhotelbuuton {
+    margin-top: 10px;
+    padding: 5px 10px;
+    background-color: rgb(6, 94, 129);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  

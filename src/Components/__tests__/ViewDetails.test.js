@@ -16,6 +16,7 @@ describe("ViewDetails", () => {
         <ViewDetails />
       </MemoryRouter>
     );
+    expect(screen.getByText(hotel.name)).toBeInTheDocument();
     expect(screen.getByText(hotel.description)).toBeInTheDocument();
     expect(screen.getByText(hotel.location)).toBeInTheDocument();
   });

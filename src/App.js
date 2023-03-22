@@ -9,8 +9,9 @@ import AddHotelAdmin from "./Components/AddHotelAdmin";
 import ViewDetails from "./Pages/ViewDetails";
 import BookingForm from "./Components/BookingForm";
 import RoomList from "./Pages/RoomList";
-import AddnewUser from "./Components/AddnewUser";
 import BookingDetails from "./Pages/BookingDetails";
+import HotelAdminlist from "./Pages/HotelAdminlist";
+import AddnewUser from "./Pages/AddnewUser";
 
 
 
@@ -29,7 +30,8 @@ function App() {
         <Route path="/BookingForm/:id" element={<BookingForm />} />
         <Route path="/RoomList" element={<RoomList />} />
         <Route path="/Addnewuser" element={<AddnewUser />} />
-        <Route path="/BookingDetails" element={<BookingDetails />} />
+        <Route path="/BookingDetails" element={<BookingDetails />} />    
+        <Route path="/HotelAdminList" element={<HotelAdminlist />} />
       </Routes>
     </div>
   );
@@ -45,7 +47,7 @@ function ProtectedRoute({children, ...rest }) {
     userAuth &&
     userAuth.username &&
     userAuth.username.length > 0 &&
-    (userAuth.type === "admin")
+    ((userAuth.type === "admin") || (userAuth.type === "hoteladmin"))
   ) {
     return children;
   } else {

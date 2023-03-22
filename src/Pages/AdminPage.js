@@ -23,7 +23,7 @@ function AdminPage() {
     </Link>
     </p> 
     <p>Add new users as Admin
-    <Link to="/AdminBookingPage" relative="path">
+    <Link to="/AddnewUser" relative="path">
       Click here
     </Link>
     </p> 

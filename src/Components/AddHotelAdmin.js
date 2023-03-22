@@ -43,6 +43,7 @@ function AddHotelAdmin() {
     const data = {
       hotelName: selectedHotel,
       adminId: selectedAdmin,
+      
     };
     instance
       .post("/assignhotel", data)
@@ -93,6 +94,11 @@ function AddHotelAdmin() {
         <button type="submit">Assign Hotel</button>
       </form>
       {successMessage && <p>{successMessage}</p>}
+      <p>
+    <Link to="/HotelAdminList" relative="path">
+    Click here to see previously added hotelAdmins
+    </Link>
+    </p> 
     </div>
   );
 }
