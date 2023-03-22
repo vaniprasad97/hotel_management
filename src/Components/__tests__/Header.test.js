@@ -49,7 +49,7 @@ describe("Header", () => {
     expect(name).toBeNull();
     //verify that the component does not render the user's initials and name when the user is not logged in.
     //screen.queryByText method is to locate the user's initials and name.
-    //The queryByText method is used instead of getByText method,as it returns null if the element is not found, 
+    //The queryByText method is used instead of getByText method,as it returns null if the element is not found,
     //instead of throwing an error.
     //The expect method is used to verify that the initials and name variables are null using the toBeNull matche
   });
@@ -60,8 +60,8 @@ describe("Header", () => {
     expect(logoutButton).toBeNull();
     //  to verify that the component does not render the Logout button when the user is not logged in.
     //The screen.queryByText method is then used to locate the Logout button in the rendered component by searching for the text "logout" using a regular expression.
-//The queryByText method is used instead of the getByText method,
-// as it returns null if the element is not found, instead of throwing an error
+    //The queryByText method is used instead of the getByText method,
+    // as it returns null if the element is not found, instead of throwing an error
   });
 
   test("calls the signOut function when the Logout button is clicked", () => {
@@ -74,10 +74,9 @@ describe("Header", () => {
     fireEvent.click(logoutButton);
     expect(signOutMock).toHaveBeenCalled();
   });
-//testing whether the signOut function is called when the Logout button is clicked.
-//It sets up a mock user object and mock signOut function and  mock useNavigate hook using
-// mockReturnValueOnce and returns the mock signOut function and  renders the Header component.
-//It gets the Logout button using screen.getByText and clicks it using fireEvent.click.
-//It checks that the mock signOut function was called using expect(signOutMock).toHaveBeenCalled().
-
+  //testing whether the signOut function is called when the Logout button is clicked.
+  //It sets up a mock user object and mock signOut function and  mock useNavigate hook using
+  // mockReturnValueOnce and returns the mock signOut function and  renders the Header component.
+  //It gets the Logout button using screen.getByText and clicks it using fireEvent.click.
+  //It checks that the mock signOut function was called using expect(signOutMock).toHaveBeenCalled().
 });
