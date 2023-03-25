@@ -21,7 +21,7 @@ function HotelAdminPage() {
       .catch((error) => {
         console.error(error);
       });
-      // useEffect hook that makes a Get request to retrieve data from the api/assignhotel.
+    // useEffect hook that makes a Get request to retrieve data from the api/assignhotel.
     //And stores it in the AssignhotelAPI
   }, []);
 
@@ -38,8 +38,8 @@ function HotelAdminPage() {
       created_by: adminId,
       created_at: now.toISOString(),
     };
-  // Check if the roomName already exists in the Assignhotel array
-    const roomExists = assignhotel.find((hotel) => hotel.roomName===roomName);
+    // Check if the roomName already exists in the Assignhotel array
+    const roomExists = assignhotel.find((hotel) => hotel.roomName === roomName);
     if (roomExists) {
       setMessage("Hotel with the same name already exists.");
       return;
@@ -58,10 +58,10 @@ function HotelAdminPage() {
       .catch((error) => {
         console.log("Error adding room:", error);
       });
-        // The function handleSubmit is called when a form is submitted.  
-      //creates an object containing the data entered in the form fields and the user ID retrieved
-      // from local storage, and then sends this data to the rooms api using POST method. After submitting  
-      // the function clears the form fields.
+    // The function handleSubmit is called when a form is submitted.
+    //creates an object containing the data entered in the form fields and the user ID retrieved
+    // from local storage, and then sends this data to the rooms api using POST method. After submitting
+    // the function clears the form fields.
   };
 
   return (
@@ -107,11 +107,15 @@ function HotelAdminPage() {
           Add room
         </button>
         <p style={{ color: "red" }}>{message}</p>
-        <Link to={`/RoomList`}> Click here to see the previously added list of hotels </Link>
+        <Link to={`/RoomList`}>
+          Click here to see the previously added list of hotels{" "}
+        </Link>
+        <Link to="/HotelAdminBookingDetails" relative="path">
+          Click here
+        </Link>
       </form>
     </div>
   );
 }
 
 export default HotelAdminPage;
-

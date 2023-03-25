@@ -1,44 +1,82 @@
 .Addroomform {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 50px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 
-  .Addroom
-  {
-    margin: 0;
-    position: relative;
-    left: 42%;
-    justify-content: center;
-    margin: 10px;
-    padding: 10px;
-    text-align: center;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    background-color: #0069d9;
-  }
-  .assignhotelform {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .assignhotelbuuton {
-    margin-top: 10px;
-    padding: 5px 10px;
-    background-color: rgb(6, 94, 129);
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
+.Addroom {
+  margin: 0;
+  position: relative;
+  left: 42%;
+  justify-content: center;
+  margin: 10px;
+  padding: 10px;
+  text-align: center;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background-color: #0069d9;
+}
+.assignhotelform {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.assignhotelbuuton {
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: rgb(6, 94, 129);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.hotel-box-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.hotel-box {
+  width: 30%;
+  background-color: #f9f9f9;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
+}
+
+.assignhotelbuuton {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+  margin: 10px;
+  width: 300px;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+}
+.AddhotelAdmin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

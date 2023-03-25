@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate} from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import LoginPage from "./Pages/LoginPage";
 import AdminPage from "./Pages/AdminPage";
 import UserPage from "./Pages/UserPage";
@@ -12,16 +12,31 @@ import RoomList from "./Pages/RoomList";
 import BookingDetails from "./Pages/BookingDetails";
 import HotelAdminlist from "./Pages/HotelAdminlist";
 import AddnewUser from "./Pages/AddnewUser";
-
-
+import AddUsers from "./Pages/AddUsers";
+import HotelAdminBookingDetails from "./Pages/HotelAdminBookingDetails";
+import Add from "./Pages/Add";
 
 function App() {
   return (
     <div>
       <Routes>
         <Route path="/" element={<LoginPage />} />
-        <Route path="/AdminPage" element={<ProtectedRoute><AdminPage /></ProtectedRoute>} />  
-        <Route path="/HotelAdminPage" element={<ProtectedRoute><HotelAdminPage/> </ProtectedRoute>} />
+        <Route
+          path="/AdminPage"
+          element={
+            <ProtectedAdminRoute>
+              <AdminPage />
+            </ProtectedAdminRoute>
+          }
+        />
+        <Route
+          path="/HotelAdminPage"
+          element={
+            <ProtectedRoute>
+              <HotelAdminPage />{" "}
+            </ProtectedRoute>
+          }
+        />
         <Route path="/UserPage" element={<UserPage />} />
         <Route path="/Hotellist" element={<HotelList />} />
         <Route path="/AdminBookingPage" element={<AdminBookingPage />} />
@@ -30,29 +45,47 @@ function App() {
         <Route path="/BookingForm/:id" element={<BookingForm />} />
         <Route path="/RoomList" element={<RoomList />} />
         <Route path="/Addnewuser" element={<AddnewUser />} />
-        <Route path="/BookingDetails" element={<BookingDetails />} />    
+        <Route path="/BookingDetails" element={<BookingDetails />} />
         <Route path="/HotelAdminList" element={<HotelAdminlist />} />
+        <Route path="/AddUsers" element={<AddUsers />} />
+        <Route path="/Add" element={<Add />} />
+
+        <Route
+          path="/HotelAdminBookingDetails"
+          element={<HotelAdminBookingDetails />}
+        />
       </Routes>
     </div>
   );
 }
 
-
 export default App;
 
-function ProtectedRoute({children, ...rest }) {
+function ProtectedAdminRoute({ children, ...rest }) {
   const userAuth = JSON.parse(localStorage.getItem("selectedUser"));
 
   if (
     userAuth &&
     userAuth.username &&
     userAuth.username.length > 0 &&
-    ((userAuth.type === "admin") || (userAuth.type === "hoteladmin"))
+    userAuth.type === "admin"
   ) {
     return children;
   } else {
     return <Navigate to="/" />;
   }
 }
+function ProtectedRoute({ children, ...rest }) {
+  const userAuth = JSON.parse(localStorage.getItem("selectedUser"));
 
-
+  if (
+    userAuth &&
+    userAuth.username &&
+    userAuth.username.length > 0 &&
+    userAuth.type === "hoteladmin"
+  ) {
+    return children;
+  } else {
+    return <Navigate to="/" />;
+  }
+}

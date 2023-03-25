@@ -1,28 +1,30 @@
-import React from "react";
-import { useEffect, useState } from "react";
-import Header from "./Header";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import instance from "../axiosconfig";
+import Header from "../Components/Header";
 
-function AdminBookingPage() {
+function HotelAdminBookingDetails() {
+  const loggedInUser = localStorage.getItem("selectedUser");
+  const userObj = JSON.parse(loggedInUser);
   const [bookingsData, setBookingsData] = useState([]);
 
   useEffect(() => {
     instance
       .get("/bookings")
       .then((response) => {
-        setBookingsData(response.data);
+        // Filter out the bookings data based on the user ID
+        const filteredBookings = response.data.filter(
+          (booking) => booking.userId === userObj.id
+        );
+        setBookingsData(filteredBookings);
       })
       .catch((error) => {
         console.error(error);
       });
-  }, []);
+  }, [userObj.id]);
+
   return (
     <div>
       <Header />
-      <Link to="/AdminPage" relative="path">
-        Back To Admin Page
-      </Link>
       <h1>Bookings</h1>
       <table>
         <thead>
@@ -54,4 +56,4 @@ function AdminBookingPage() {
   );
 }
 
-export default AdminBookingPage;
+export default HotelAdminBookingDetails;

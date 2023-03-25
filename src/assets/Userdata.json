@@ -5,30 +5,30 @@
       "password": "admin123",
       "type": "admin",
       "name": "Admin",
-      "id" : 1
+      "id": 1
     },
     {
       "username": "vani",
       "password": "vani123",
       "type": "user",
       "name": "vani Prasad",
-      "id" : 2
+      "id": 2
     },
     {
       "username": "hayatadmin",
       "password": "hoteladmin123",
       "type": "hoteladmin",
       "name": "Hotel Admin",
-      "hotelname" : "hayat",
-      "id" : 3
+      "hotelname": "hayat",
+      "id": 3
     },
     {
       "username": "gokulamadmin",
       "password": "hoteladmin123",
       "type": "hoteladmin",
       "name": "Hotel Admin",
-      "hotelname" : "gokulam",
-      "id" : 4
+      "hotelname": "gokulam",
+      "id": 4
     }
   ]
 }

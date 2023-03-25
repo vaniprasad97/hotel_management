@@ -2,83 +2,96 @@ import React, { useState, useEffect } from "react";
 import instance from "../axiosconfig";
 import Header from "./Header";
 import { Link } from "react-router-dom";
-import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import Calendar from "react-calendar";
 import "../Styles/BookingForm.css";
+import moment from "moment";
+import CalendarComponent from "../Pages/AddUsers";
 
 function BookingForm() {
+  const mark = ["04-03-2023", "03-03-2023", "05-03-2023"];
+
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
-  const [checkInDate, setCheckInDate] = useState("");
+  const [checkInDate, setCheckInDate] = useState();
   const [checkOutDate, setCheckOutDate] = useState("");
   const [noOfGuests, setNoOfGuests] = useState("");
   const [rooms, setRooms] = useState([]);
   const [hotels, setHotels] = useState([]);
-  const [selectedHotel, setSelectedHotel] = useState(null);
-
+  const [assignhotels, setAssignHotels] = useState([]);
   const [selectedRoomId, setSelectedRoomId] = useState("");
-  const navigate = useNavigate();
-  const loggedInUser = localStorage.getItem("selectedUser");
-  const { id } = useParams();
+  const [selectedHotel, setSelectedHotel] = useState(null);
+  const [filteredRooms, setfilteredRooms] = useState([]);
+  const [bookings, setBookings] = useState([]);
+  const [disabledDates, setDisabledDates] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
 
+  const navigate = useNavigate();
+
+  const loggedInUser = localStorage.getItem("selectedUser");
+  console.log(loggedInUser);
+  const userObj1 = JSON.parse(loggedInUser);
+  const userid = userObj1.id;
+  console.log(userid);
   useEffect(() => {
-    instance
-      .get("/rooms")
-      .then((response) => {
-        setRooms(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    instance.get("/rooms").then((response) => {
+      setRooms(response.data);
+    });
+
     if (loggedInUser) {
       const userObj = JSON.parse(loggedInUser);
-      const loggedInUserName = userObj.name;
-      const loggedInUserusername = userObj.username;
-      setName(loggedInUserName);
-      setUsername(loggedInUserusername);
+      setName(userObj.name);
+      setUsername(userObj.username);
     }
   }, []);
+
   useEffect(() => {
-    instance
-      .get("/hotels")
-      .then((response) => {
-        setHotels(response.data);
-      })
-      .catch((error) => {
-        console.log("Error fetching hotels", error);
-      });
-    //This code uses the useEffect hook to fetch data from a server using an HTTP GET request
-    // when the component mounts. The code creates an effect that sets the hotels state variable
-    // with the data received from the server using the setHotels function.
-    // . If the GET request fails, an error message is logged to the console.
+    instance.get("/hotels").then((response) => {
+      setHotels(response.data);
+    });
   }, []);
-  const handleHotelChange = (event) => {
-    setSelectedHotel(event.target.value);
-    // function for handling the user input and store the data in the state selectedhotel
-    // The function is for handling the userinput updates the state variable selectedHotel with the value of the selected hotel. This function
-    // is used for handling the user input and storing the selected hotel data in the state variable selectedHotel.
-  };
+
+  useEffect(() => {
+    instance.get("/assignhotel").then((response) => {
+      setAssignHotels(response.data);
+    });
+  }, []);
+
+  useEffect(() => {
+    instance.get("/bookings").then((response) => {
+      setBookings(response.data);
+      const disabledDates = response.data.map((booking) => {
+        return {
+          from: new Date(booking.checkInDate),
+          to: new Date(booking.checkOutDate),
+        };
+      });
+      setDisabledDates(disabledDates);
+    });
+  }, []);
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    // Check if required fields are empty
-    if (
-      !name ||
-      !username ||
-      !checkInDate ||
-      !checkOutDate ||
-      !noOfGuests ||
-      !selectedHotel ||
-      !selectedRoomId
-    ) {
-      alert("Please fill out all required fields.");
+    // Check if check-in and check-out dates are the same
+    if (checkInDate === checkOutDate) {
+      setErrorMessage("Check-out date cannot be the same as check-in date");
       return;
     }
 
-    const selectedRoom = rooms.filter(
-      (room) => room.roomName === selectedRoomId
+    // Check if booking conflicts with existing bookings
+    const existingBooking = bookings.find(
+      (booking) =>
+        selectedRoomId === booking.roomId &&
+        ((checkInDate >= booking.checkInDate &&
+          checkInDate <= booking.checkOutDate) ||
+          (checkOutDate >= booking.checkInDate &&
+            checkOutDate <= booking.checkOutDate))
     );
+    if (existingBooking) {
+      setErrorMessage("This room is already booked on that date");
+      return;
+    }
 
     const data = {
       name,
@@ -87,33 +100,32 @@ function BookingForm() {
       checkOutDate,
       noOfGuests,
       roomId: selectedRoomId,
+      hotelId: selectedHotel,
+      UserID: userid,
     };
 
-    instance
-      .post("/bookings", data)
-      .then((response) => {
-        const updatedRooms = rooms.filter(
-          (room) => room.roomName !== selectedRoomId
-        );
+    instance.post("/bookings", data).then(() => {
+      const updatedRooms = rooms.filter(
+        (room) => room.roomName !== selectedRoomId
+      );
+      setRooms(updatedRooms);
+      navigate("/BookingDetails");
+    });
+  };
 
-        if (selectedRoom && selectedRoom[0].roomName === data.roomId) {
-          instance
-            .delete(`/rooms/${selectedRoom[0]._id}`)
-            .then(() => {
-              console.log("deleted");
-              navigate("/BookingDetails");
-            })
-            .catch((error) => {
-              console.log("Error deleting room", error);
-            });
-        } else {
-          setRooms(updatedRooms);
-          navigate("/BookingDetails");
-        }
-      })
-      .catch((error) => {
-        console.log("Error creating booking", error);
-      });
+  const handleHotelChange = (event) => {
+    const hotelId = event.target.value;
+    const matcheddetails = assignhotels.find(
+      (hoteldetails) => hoteldetails.hotelId == hotelId
+    );
+
+    setfilteredRooms(
+      rooms.filter((room) => room.created_by == matcheddetails.adminId)
+    );
+
+    setSelectedHotel(hotelId);
+
+    setRooms(filteredRooms);
   };
 
   return (
@@ -132,17 +144,9 @@ function BookingForm() {
             onChange={(event) => setName(event.target.value)}
           />
         </div>
+
         <div>
-          <label htmlFor="name">Username:</label>
-          <input
-            type="text"
-            id="name"
-            value={username}
-            onChange={(event) => setUsername(event.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="checkInDate">Check-in date:</label>
+          <label htmlFor="room">checkInDate</label>
           <input
             type="date"
             id="checkInDate"
@@ -150,30 +154,39 @@ function BookingForm() {
             onChange={(event) => setCheckInDate(event.target.value)}
           />
         </div>
+        {/* <Calendar onChange={setCheckInDate} value={checkInDate} />
+          {/* <Calendar
+            style={{ height: 500 }}
+            onChange={setCheckInDate}
+            value={checkInDate}
+            tileClassName={({ date, view }) => {
+              if (mark.find((x) => x === moment(date).format("DD-MM-YYYY"))) {
+                return "highlight";
+              }
+            }}
+            tileDisabled={({ date }) => date.getDay() === 0}
+            minDate={new Date()}
+          ></Calendar> */}
+        {/* </div> */}
         <div>
-          <label htmlFor="checkOutDate">Check-out date:</label>
+          <label htmlFor="room">checkOutDate:</label>
           <input
             type="date"
             id="checkOutDate"
             value={checkOutDate}
             onChange={(event) => setCheckOutDate(event.target.value)}
+            disabled={disabledDates.some(
+              (date) => date.from <= new Date(checkOutDate)
+            )}
           />
         </div>
-        <div>
-          <label htmlFor="noOfGuests">Number of guests:</label>
-          <input
-            type="number"
-            id="noOfGuests"
-            value={noOfGuests}
-            onChange={(event) => setNoOfGuests(event.target.value)}
-          />
-        </div>
+        <CalendarComponent selectedHotelId={selectedHotel} />
         <div>
           <label htmlFor="hotel">Select a hotel:</label>
           <select id="hotel" name="hotel" onChange={handleHotelChange}>
             <option value="">Select a hotel</option>
             {hotels.map((hotel) => (
-              <option key={hotel.id} value={hotel.id}>
+              <option key={hotel._id} value={hotel._id}>
                 {hotel.name}
               </option>
             ))}
@@ -186,7 +199,7 @@ function BookingForm() {
             value={selectedRoomId}
             onChange={(event) => setSelectedRoomId(event.target.value)}
           >
-            {rooms.map((room) => (
+            {filteredRooms.map((room) => (
               <option key={room.roomName} value={room.roomName}>
                 {room.roomName}
               </option>
@@ -196,6 +209,7 @@ function BookingForm() {
         <button className="BookingButton" type="submit">
           Book Now
         </button>
+        {errorMessage && <div className="error">{errorMessage}</div>}
       </form>
     </div>
   );

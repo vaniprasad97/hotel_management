@@ -31,7 +31,9 @@ function UserPage() {
         {hotels.map((hotel) => (
           <li key={hotel.id}>
             <h3>{hotel.name}</h3>
-            <Link to={`/ViewDetails/${hotel._id}`}>ViewDetails</Link>
+            <Link to={`/ViewDetails/${hotel._id}`}>
+              ViewDetails and Available dates
+            </Link>
             <div>
               <Link
                 to={`/BookingForm/${hotel._id}`}

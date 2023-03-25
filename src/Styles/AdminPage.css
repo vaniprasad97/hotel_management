@@ -18,8 +18,8 @@ th {
 }
 
 button {
-  background-color: #4caf50;
-  color: white;
+  /*  background-color: #4caf50;
+  color: white; */
   border: none;
   padding: 0.5rem;
   border-radius: 0.25rem;
@@ -28,7 +28,7 @@ button {
 }
 
 button:hover {
-  background-color: #3e8e41;
+  /* background-color: #3e8e41; */
 }
 
 label {
@@ -124,8 +124,8 @@ button[type="submit"] {
 .pagination button.disabled {
   color: #ccc;
   pointer-events: none;
- }
- .search-button {
+}
+.search-button {
   padding: 15px;
   background-color: #0077cc;
   color: #fff;
@@ -133,10 +133,8 @@ button[type="submit"] {
   border-radius: 5px;
   cursor: pointer;
   margin-bottom: 20px;
- 
 }
 
- 
 .search-container {
   color: rgb(23, 95, 124);
   text-align: center;
@@ -145,5 +143,3 @@ button[type="submit"] {
   position: relative;
   left: 500px;
 }
-
-

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import Header from "../Components/Header";
 import instance from "../axiosconfig";
+import { Link } from "react-router-dom";
+import "../Styles/AdminPage.css";
 
 function AddnewUser() {
   const [username, setUsername] = useState("");
   const [hotels, setHotels] = useState([]);
   const [selectedHotel, setSelectedHotel] = useState("");
-  const [selectedAdmin, setSelectedAdmin] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -28,17 +29,20 @@ function AddnewUser() {
   const handleHotelChange = (event) => {
     setSelectedHotel(event.target.value);
   };
-  const handleAdminChange = (event) => {
-    setSelectedAdmin(event.target.value);
-  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    if (!username || !selectedHotel) {
+      setErrorMessage("Please fill in all fields");
+      return;
+    }
+
     const data = {
       username,
       hotelName: selectedHotel,
-      adminId : selectedAdmin,
     };
+
     instance
       .post("/assignhotel", data)
       .then((response) => {
@@ -56,8 +60,9 @@ function AddnewUser() {
   return (
     <div>
       <Header />
+      <Link to={"/AdminPage"}> Back to Admin Page</Link>
       <h2>Add a new hotel admin</h2>
-      <form onSubmit={handleSubmit}>
+      <form className="" onSubmit={handleSubmit}>
         <div>
           <label htmlFor="username">Username:</label>
           <input
@@ -66,16 +71,6 @@ function AddnewUser() {
             name="username"
             value={username}
             onChange={handleUsernameChange}
-          />
-        </div>
-        <div>
-          <label htmlFor="username">Assign AdminId</label>
-          <input
-            type="text"
-            id="adminid"
-            name="adminid"
-            value={selectedAdmin}
-            onChange={handleAdminChange}
           />
         </div>
         <div>
@@ -89,10 +84,10 @@ function AddnewUser() {
             ))}
           </select>
         </div>
+        {successMessage && <p>{successMessage}</p>}
+        {errorMessage && <p>{errorMessage}</p>}
         <button type="submit">Add Hotel Admin</button>
       </form>
-      {successMessage && <p>{successMessage}</p>}
-      {errorMessage && <p>{errorMessage}</p>}
     </div>
   );
 }

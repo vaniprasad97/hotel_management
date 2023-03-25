@@ -1,13 +1,14 @@
-import React from 'react';
-import { useEffect , useState} from 'react';
-import instance from '../axiosconfig';
-import "../Styles/HotelAdminPage.css"
-
+import React from "react";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import instance from "../axiosconfig";
+import Header from "../Components/Header";
+import "../Styles/HotelAdminPage.css";
 
 function HotelAdminlist() {
   const [assignhotels, setAssignhotels] = useState([]);
   console.log(assignhotels);
-  
+
   useEffect(() => {
     instance
       .get("/assignhotel")
@@ -16,7 +17,7 @@ function HotelAdminlist() {
       })
       .catch((error) => {
         console.log("Error fetching hotels", error);
-      });  
+      });
   }, []);
 
   const handleDelete = (id) => {
@@ -29,18 +30,25 @@ function HotelAdminlist() {
         console.log("Error deleting hotel", error);
       });
   };
-console.log(assignhotels);
+  console.log(assignhotels);
   return (
-    <div>
-        <form className='assignhotelform'>
-      {assignhotels.map((hotel) => (
-        <div key={hotel._id}>
-          <h2>{hotel.hotelName}</h2>
-          <p>Admin ID: {hotel.adminId}</p>
-          <p> {hotel.useername}</p>
-          <button className='assignhotelbuuton' onClick={() => handleDelete(hotel._id)}>Delete</button>
+    <div className="hotel-admin-list-container">
+      <Header />
+      <Link to={"/AdminPage"}> Back to Admin Page</Link>
+      <form className="assignhotelform">
+        <div className="hotel-box-container">
+          {assignhotels.map((hotel) => (
+            <div key={hotel._id} className="hotel-box">
+              <p>Admin ID: {hotel._id}</p>
+              <button
+                className="assignhotelbuuton"
+                onClick={() => handleDelete(hotel._id)}
+              >
+                Delete
+              </button>
+            </div>
+          ))}
         </div>
-      ))}
       </form>
     </div>
   );
