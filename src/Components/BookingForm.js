@@ -3,10 +3,9 @@ import instance from "../axiosconfig";
 import Header from "./Header";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import Calendar from "react-calendar";
 import "../Styles/BookingForm.css";
 import moment from "moment";
-import CalendarComponent from "../Pages/Calendar";
+import CalendarComponent from "../Pages/AddUsers";
 
 function BookingForm() {
   const mark = ["04-03-2023", "03-03-2023", "05-03-2023"];

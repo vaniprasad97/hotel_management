@@ -1,14 +1,20 @@
-import React, { useEffect, useState } from "react";
 import "react-day-picker/dist/style.css";
 import { format } from "date-fns";
 import { DayPicker } from "react-day-picker";
 import instance from "../axiosconfig";
+import React, { useEffect, useState } from "react";
 
 export default function Example(props) {
   const [range, setRange] = useState();
   const [bookingsData, setBookingsData] = useState([]);
   const [disabledDates, setDisabledates] = useState([]);
-  const [checkInDate, setCheckInDate] = useState();
+  const [filteredDetail, setFilteredDetails] = useState([]);
+  const bookedStyle = { border: "2px solid currentColor" };
+  const disabledDays = [
+    { from: new Date("2023-04-18"), to: new Date("2023-04-29") },
+    { from: new Date("2023-05-18"), to: new Date("2023-05-29") },
+  ];
+  let footer = <p> Marked dates are booked</p>;
 
   useEffect(() => {
     instance
@@ -23,7 +29,9 @@ export default function Example(props) {
             to: new Date(booking.checkOutDate),
           };
         });
-        debugger;
+        console.log("filtered dates", disabledDates);
+        console.log("constant date", disabledDays);
+        setFilteredDetails(filteredDetails);
         setDisabledates(disabledDates);
         setBookingsData(response.data);
       })
@@ -32,31 +40,27 @@ export default function Example(props) {
       });
   }, [props.selectedHotelId]);
 
-  const disabledDays = [
-    { from: new Date("2023-04-18"), to: new Date("2023-04-29") },
-    { from: new Date("2023-05-18"), to: new Date("2023-05-29") },
-  ];
-  let footer = <p>Please pick the first day.</p>;
-  if (range?.from) {
-    if (!range.to) {
-      footer = <p>{format(range.from, "PPP")}</p>;
-    } else if (range.to) {
-      footer = (
-        <p>
-          {format(range.from, "PPP")}–{format(range.to, "PPP")}
-        </p>
-      );
-    }
-  }
+  const getDisabledDays = () => {
+    const disabledDates = filteredDetail.map((booking) => {
+      return {
+        from: new Date(booking.checkInDate),
+        to: new Date(booking.checkOutDate),
+      };
+    });
+    return disabledDates;
+  };
 
   return (
     <DayPicker
+      mode="single"
       min={3}
       max={6}
-      selected={range}
-      onSelect={setRange}
+      modifiers={{ booked: getDisabledDays() }}
+      modifiersStyles={{ booked: bookedStyle }}
+      // selected={range}
+      // onSelect={setRange}
       footer={footer}
-      disabled={disabledDays}
+      disabled={getDisabledDays()}
     />
   );
 }
