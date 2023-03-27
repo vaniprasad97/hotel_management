@@ -52,9 +52,14 @@ function AddHotelAdmin() {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
+    const selectedHotelObj = hotels.find(
+      (hotel) => hotel._id === selectedHotel
+    );
+
     const data = {
       hotelId: selectedHotel,
       adminId: selectedAdmin,
+      hotelName: selectedHotelObj.name,
     };
     instance
       .post("/assignhotel", data)
@@ -72,8 +77,11 @@ function AddHotelAdmin() {
   };
 
   return (
-    <div className="AddhotelAdmin">
-      <Header />
+    <div>
+      <div>
+        <Header />
+      </div>
+
       <p>
         Back to Admin home page
         <Link to="/AdminPage" relative="path">

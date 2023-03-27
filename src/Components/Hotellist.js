@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import Header from "../Components/Header";
+import Header from "./Header";
 import "../Styles/AdminPage.css";
 import { Link } from "react-router-dom";
 import Modal from "react-modal";
-import Search from "../Components/Search";
+import Search from "./Search";
 import instance from "../axiosconfig";
 
 const HotelList = () => {
@@ -78,7 +78,7 @@ const HotelList = () => {
     event.preventDefault();
     const errors = validateForm();
     if (Object.keys(errors).length === 0) {
-      const nameExists = hotels.some(hotel => hotel.name === newHotel.name);
+      const nameExists = hotels.some((hotel) => hotel.name === newHotel.name);
       if (nameExists) {
         setErrors({ name: "A hotel with this name already exists" });
       } else {
@@ -103,14 +103,13 @@ const HotelList = () => {
     } else {
       setErrors(errors);
     }
-    //when the user submits a form to add a new hotel, this function 
+    //when the user submits a form to add a new hotel, this function
     // validate the form data, check if the hotel name already exists, and add the new hotel to the list of hotels.
     // It also check the error. if there is no error, it will post data to the api
     // else store the errors in the error state.
     //If the new hotel name already exists,
     // it sets an error message in the errors state object using the setErrors function.
   };
-  
 
   const handleDeleteHotel = (id) => {
     setShowModal(true);
@@ -133,9 +132,9 @@ const HotelList = () => {
       .catch((error) => {
         console.error(error);
       });
-   // Inside the function, the instance.delete() method is called with a URL parameter to 
-   //delete the hotel with a specific id (hotelToDelete). If the delete request is successful, 
-   //the hotels state is updated by filtering out the deleted hotel.
+    // Inside the function, the instance.delete() method is called with a URL parameter to
+    //delete the hotel with a specific id (hotelToDelete). If the delete request is successful,
+    //the hotels state is updated by filtering out the deleted hotel.
   };
 
   return (

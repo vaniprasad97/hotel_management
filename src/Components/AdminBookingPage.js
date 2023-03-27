@@ -14,7 +14,7 @@ function AdminBookingPage() {
         setBookingsData(response.data);
       })
       .catch((error) => {
-        console.error(error);
+        //  console.error(error);
       });
   }, []);
   return (

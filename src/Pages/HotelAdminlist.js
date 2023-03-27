@@ -19,7 +19,7 @@ function HotelAdminlist() {
         console.log("Error fetching hotels", error);
       });
   }, []);
-
+  console.log(assignhotels);
   const handleDelete = (id) => {
     instance
       .delete(`/assignhotel/${id}`)
@@ -40,6 +40,7 @@ function HotelAdminlist() {
           {assignhotels.map((hotel) => (
             <div key={hotel._id} className="hotel-box">
               <p>Admin ID: {hotel._id}</p>
+              <p> hotelName :{hotel.hotelName}</p>
               <button
                 className="assignhotelbuuton"
                 onClick={() => handleDelete(hotel._id)}

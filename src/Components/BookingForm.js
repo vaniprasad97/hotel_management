@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Calendar from "react-calendar";
 import "../Styles/BookingForm.css";
 import moment from "moment";
-import CalendarComponent from "../Pages/AddUsers";
+import CalendarComponent from "../Pages/Calendar";
 
 function BookingForm() {
   const mark = ["04-03-2023", "03-03-2023", "05-03-2023"];
@@ -32,7 +32,7 @@ function BookingForm() {
   console.log(loggedInUser);
   const userObj1 = JSON.parse(loggedInUser);
   const userid = userObj1.id;
-  console.log(userid);
+
   useEffect(() => {
     instance.get("/rooms").then((response) => {
       setRooms(response.data);
@@ -144,43 +144,6 @@ function BookingForm() {
             onChange={(event) => setName(event.target.value)}
           />
         </div>
-
-        <div>
-          <label htmlFor="room">checkInDate</label>
-          <input
-            type="date"
-            id="checkInDate"
-            value={checkInDate}
-            onChange={(event) => setCheckInDate(event.target.value)}
-          />
-        </div>
-        {/* <Calendar onChange={setCheckInDate} value={checkInDate} />
-          {/* <Calendar
-            style={{ height: 500 }}
-            onChange={setCheckInDate}
-            value={checkInDate}
-            tileClassName={({ date, view }) => {
-              if (mark.find((x) => x === moment(date).format("DD-MM-YYYY"))) {
-                return "highlight";
-              }
-            }}
-            tileDisabled={({ date }) => date.getDay() === 0}
-            minDate={new Date()}
-          ></Calendar> */}
-        {/* </div> */}
-        <div>
-          <label htmlFor="room">checkOutDate:</label>
-          <input
-            type="date"
-            id="checkOutDate"
-            value={checkOutDate}
-            onChange={(event) => setCheckOutDate(event.target.value)}
-            disabled={disabledDates.some(
-              (date) => date.from <= new Date(checkOutDate)
-            )}
-          />
-        </div>
-        <CalendarComponent selectedHotelId={selectedHotel} />
         <div>
           <label htmlFor="hotel">Select a hotel:</label>
           <select id="hotel" name="hotel" onChange={handleHotelChange}>
@@ -206,6 +169,37 @@ function BookingForm() {
             ))}
           </select>
         </div>
+        <div>
+          <label>
+            Number of Guests:
+            <input
+              type="number"
+              value={noOfGuests}
+              onChange={(event) => setNoOfGuests(event.target.value)}
+            />
+          </label>
+        </div>
+
+        <div>
+          <label htmlFor="room">checkInDate</label>
+          <input
+            type="date"
+            id="checkInDate"
+            value={checkInDate}
+            onChange={(event) => setCheckInDate(event.target.value)}
+          />
+        </div>
+        <div>
+          <label htmlFor="room">checkOutDate:</label>
+          <input
+            type="date"
+            id="checkOutDate"
+            value={checkOutDate}
+            onChange={(event) => setCheckOutDate(event.target.value)}
+          />
+        </div>
+        <CalendarComponent selectedHotelId={selectedHotel} />
+
         <button className="BookingButton" type="submit">
           Book Now
         </button>

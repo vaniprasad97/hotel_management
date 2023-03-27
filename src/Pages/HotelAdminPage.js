@@ -111,7 +111,7 @@ function HotelAdminPage() {
           Click here to see the previously added list of hotels{" "}
         </Link>
         <Link to="/HotelAdminBookingDetails" relative="path">
-          Click here
+          Click here to see list of bookings
         </Link>
       </form>
     </div>

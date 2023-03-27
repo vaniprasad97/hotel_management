@@ -4,23 +4,26 @@ import Header from "../Components/Header";
 
 function HotelAdminBookingDetails() {
   const loggedInUser = localStorage.getItem("selectedUser");
-  const userObj = JSON.parse(loggedInUser);
+
+  const userObj = loggedInUser ? JSON.parse(loggedInUser) : null;
   const [bookingsData, setBookingsData] = useState([]);
 
   useEffect(() => {
-    instance
-      .get("/bookings")
-      .then((response) => {
-        // Filter out the bookings data based on the user ID
-        const filteredBookings = response.data.filter(
-          (booking) => booking.userId === userObj.id
-        );
-        setBookingsData(filteredBookings);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, [userObj.id]);
+    if (userObj && userObj.id) {
+      instance
+        .get("/bookings")
+        .then((response) => {
+          // Filter out the bookings data based on the user ID
+          const filteredBookings = response.data.filter(
+            (booking) => booking.userId === userObj.id
+          );
+          setBookingsData(filteredBookings);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  }, [userObj]);
 
   return (
     <div>

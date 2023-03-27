@@ -80,3 +80,47 @@
   justify-content: center;
   align-items: center;
 }
+.room-list {
+  padding: 20px;
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.room-list h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.room-list ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.room-list li {
+  margin-bottom: 20px;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+}
+
+.room-list li p {
+  margin: 0;
+  font-size: 18px;
+}
+
+.room-list li button {
+  background-color: #f44336;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.room-list li button:hover {
+  background-color: #d32f2f;
+}

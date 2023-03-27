@@ -1,12 +1,14 @@
-import React from 'react'
-import { useEffect, useState } from 'react';
-import instance from '../axiosconfig';
+import React from "react";
+import { useEffect, useState } from "react";
+import instance from "../axiosconfig";
+import "../Styles/HotelAdminPage.css";
 
 function RoomList() {
   const [rooms, setRooms] = useState([]);
 
   useEffect(() => {
-    instance.get("/rooms")
+    instance
+      .get("/rooms")
       .then((response) => {
         setRooms(response.data);
       })
@@ -15,19 +17,22 @@ function RoomList() {
       });
   }, []);
 
-  const handleDeleteRoom = roomId => {
-    instance.delete(`/rooms/${roomId}`)
-      .then(() => setRooms(prevRooms => prevRooms.filter(room => room._id !== roomId)))
-      .catch(error => console.error(error));
+  const handleDeleteRoom = (roomId) => {
+    instance
+      .delete(`/rooms/${roomId}`)
+      .then(() =>
+        setRooms((prevRooms) => prevRooms.filter((room) => room._id !== roomId))
+      )
+      .catch((error) => console.error(error));
   };
 
   return (
-    <div> 
+    <div className="room-list">
       <h2>Previously added rooms:</h2>
       <ul>
         {rooms.map((room) => (
           <li key={room._id}>
-            <p> roomName : {room.roomName} </p> 
+            <p> roomName : {room.roomName} </p>
             <p> roomType : {room.roomType} </p>
             <p> roomPrice : {room.price} </p>
             <p> roomGuest : {room.guests} </p>
@@ -36,7 +41,7 @@ function RoomList() {
         ))}
       </ul>
     </div>
-  )
+  );
 }
 
 export default RoomList;
