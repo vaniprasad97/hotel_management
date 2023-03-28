@@ -26,7 +26,7 @@ function BookingDetails() {
           <tr>
             <th>Booking ID</th>
             <th>User Name</th>
-            <th>Hotel ID</th>
+            <th>Hotel Name</th>
             <th> Room ID</th>
             <th> No: of Guests</th>
             <th>Check-in Date</th>

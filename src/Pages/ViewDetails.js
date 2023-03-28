@@ -3,8 +3,6 @@ import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import instance from "../axiosconfig";
-import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
 import "../Styles/BookingForm.css";
 
 function ViewDetails() {
@@ -57,18 +55,6 @@ function ViewDetails() {
           return null;
         })}
         <Link to="/UserPage">Back to user page</Link>
-      </div>
-      <div>
-        <Calendar
-          onChange={onChange}
-          value={value}
-          tileContent={({ date, view }) =>
-            view === "month" &&
-            bookedDates.map(
-              (bookedDate) => date >= bookedDate.start && date <= bookedDate.end
-            ) && <div className="booked-day"></div>
-          }
-        />
       </div>
     </div>
   );

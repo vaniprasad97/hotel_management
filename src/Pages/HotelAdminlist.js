@@ -35,22 +35,31 @@ function HotelAdminlist() {
     <div className="hotel-admin-list-container">
       <Header />
       <Link to={"/AdminPage"}> Back to Admin Page</Link>
-      <form className="assignhotelform">
-        <div className="hotel-box-container">
+      <table className="hotel-table">
+        <thead>
+          <tr>
+            <th>Admin ID</th>
+            <th>Hotel Name</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
           {assignhotels.map((hotel) => (
-            <div key={hotel._id} className="hotel-box">
-              <p>Admin ID: {hotel._id}</p>
-              <p> hotelName :{hotel.hotelName}</p>
-              <button
-                className="assignhotelbuuton"
-                onClick={() => handleDelete(hotel._id)}
-              >
-                Delete
-              </button>
-            </div>
+            <tr key={hotel._id}>
+              <td>{hotel._id}</td>
+              <td>{hotel.hotelName}</td>
+              <td>
+                <button
+                  className="assignhotelbuuton"
+                  onClick={() => handleDelete(hotel._id)}
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
           ))}
-        </div>
-      </form>
+        </tbody>
+      </table>
     </div>
   );
 }

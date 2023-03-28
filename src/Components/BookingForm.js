@@ -24,7 +24,10 @@ function BookingForm() {
   const [bookings, setBookings] = useState([]);
   const [disabledDates, setDisabledDates] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
-
+  console.log(hotels);
+  console.log(selectedRoomId);
+  console.log(selectedHotel);
+  console.log(rooms);
   const navigate = useNavigate();
 
   const loggedInUser = localStorage.getItem("selectedUser");
@@ -107,24 +110,29 @@ function BookingForm() {
       const updatedRooms = rooms.filter(
         (room) => room.roomName !== selectedRoomId
       );
+      console.log(updatedRooms);
       setRooms(updatedRooms);
+
       navigate("/BookingDetails");
     });
   };
 
   const handleHotelChange = (event) => {
-    const hotelId = event.target.value;
+    const hotelName = event.target.value;
+    console.log(assignhotels);
     const matcheddetails = assignhotels.find(
-      (hoteldetails) => hoteldetails.hotelId == hotelId
+      (hoteldetails) => hoteldetails.hotelName == hotelName
     );
+    console.log(matcheddetails);
 
     setfilteredRooms(
       rooms.filter((room) => room.created_by == matcheddetails.adminId)
     );
 
-    setSelectedHotel(hotelId);
+    setSelectedHotel(hotelName);
 
     setRooms(filteredRooms);
+    console.log(filteredRooms);
   };
 
   return (
@@ -148,7 +156,7 @@ function BookingForm() {
           <select id="hotel" name="hotel" onChange={handleHotelChange}>
             <option value="">Select a hotel</option>
             {hotels.map((hotel) => (
-              <option key={hotel._id} value={hotel._id}>
+              <option key={hotel._id} value={hotel.name}>
                 {hotel.name}
               </option>
             ))}
@@ -203,6 +211,7 @@ function BookingForm() {
           Book Now
         </button>
         {errorMessage && <div className="error">{errorMessage}</div>}
+        <Link to={"/BookingDetails"}> Show the booking details</Link>
       </form>
     </div>
   );

@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import instance from "../axiosconfig";
+import Header from "../Components/Header";
 import "../Styles/HotelAdminPage.css";
 
 function RoomList() {
@@ -27,19 +28,35 @@ function RoomList() {
   };
 
   return (
-    <div className="room-list">
+    <div>
+      <Header />
       <h2>Previously added rooms:</h2>
-      <ul>
-        {rooms.map((room) => (
-          <li key={room._id}>
-            <p> roomName : {room.roomName} </p>
-            <p> roomType : {room.roomType} </p>
-            <p> roomPrice : {room.price} </p>
-            <p> roomGuest : {room.guests} </p>
-            <button onClick={() => handleDeleteRoom(room._id)}>Delete</button>
-          </li>
-        ))}
-      </ul>
+      <table>
+        <thead>
+          <tr>
+            <th>Room Name</th>
+            <th>Room Type</th>
+            <th>Price</th>
+            <th>Guests</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rooms.map((room) => (
+            <tr key={room._id}>
+              <td>{room.roomName}</td>
+              <td>{room.roomType}</td>
+              <td>{room.price}</td>
+              <td>{room.guests}</td>
+              <td>
+                <button onClick={() => handleDeleteRoom(room._id)}>
+                  Delete
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

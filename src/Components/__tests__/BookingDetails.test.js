@@ -4,11 +4,9 @@ import { render, screen, waitFor } from "@testing-library/react";
 import BookingDetails from "../../Pages/BookingDetails";
 import instance from "../../axiosconfig";
 
-// Mocking the Axios instance
 jest.mock("../../axiosconfig");
 
 describe("BookingDetails component", () => {
-  // Define test data
   const bookingsData = [
     {
       _id: "1",
@@ -31,27 +29,22 @@ describe("BookingDetails component", () => {
   ];
 
   beforeEach(() => {
-    // Clear the mock implementation before each test
     instance.get.mockClear();
   });
 
   test("should render BookingDetails component with table", async () => {
-    // Mock the response of the Axios instance
     instance.get.mockResolvedValueOnce({ data: bookingsData });
 
-    // Render the BookingDetails component
     render(
       <MemoryRouter>
         <BookingDetails />
       </MemoryRouter>
     );
 
-    // Wait for the component to load
     await waitFor(() => {
       expect(screen.getByText("Bookings")).toBeInTheDocument();
     });
 
-    // Check that the table is rendered with the correct data
     expect(screen.getByText("John Doe")).toBeInTheDocument();
     expect(screen.getByText("hotel1")).toBeInTheDocument();
     expect(screen.getByText("room1")).toBeInTheDocument();
@@ -61,20 +54,15 @@ describe("BookingDetails component", () => {
     expect(screen.getByText("Tue Apr 05 2022")).toBeInTheDocument();
   });
   test("should handle error from Axios instance", async () => {
-    // Define a mock error object
     const mockError = new Error("Network Error");
 
-    // Mock the error response of the Axios instance
     instance.get.mockRejectedValueOnce(mockError);
-
-    // Render the BookingDetails component
     render(
       <MemoryRouter>
         <BookingDetails />
       </MemoryRouter>
     );
 
-    // Wait for the component to load
     await waitFor(() => {
       expect(
         screen.getByText("Hotel Booked successfully.. The booking details are:")
