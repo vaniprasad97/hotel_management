@@ -29,15 +29,18 @@ export default function Example(props) {
             to: new Date(booking.checkOutDate),
           };
         });
-        console.log("filtered dates", disabledDates);
-        console.log("constant date", disabledDays);
+
         setFilteredDetails(filteredDetails);
         setDisabledates(disabledDates);
         setBookingsData(response.data);
       })
       .catch((error) => {
-        console.error(error);
+        //  console.error(error);
       });
+    // get the data from bookings api.the callback function then filters the response data to get booking details that
+    // match the props.selectedHotelId value.It then transforms the booking data into an array of disabled dates in the
+    //format of from: to:, which is needed for a date picker component. It also sets the filteredDetails,disabledates,
+    // and bookingsData states using the setFilteredDetails, setDisabledates, and setBookingsData methods respectively.
   }, [props.selectedHotelId]);
 
   const getDisabledDays = () => {
@@ -48,6 +51,7 @@ export default function Example(props) {
       };
     });
     return disabledDates;
+    // it sets the disabled dates and returns the disabled dates.
   };
 
   return (

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "https://crudcrud.com/api/206a35c4a5fd4c0caafe8b833115b847",
+  baseURL: "https://crudcrud.com/api/b47ee95b7aa747b3b5370b9b92bda2a5",
 });
 
 export default instance;

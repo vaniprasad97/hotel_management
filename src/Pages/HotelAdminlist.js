@@ -7,7 +7,6 @@ import "../Styles/HotelAdminPage.css";
 
 function HotelAdminlist() {
   const [assignhotels, setAssignhotels] = useState([]);
-  console.log(assignhotels);
 
   useEffect(() => {
     instance
@@ -16,10 +15,10 @@ function HotelAdminlist() {
         setAssignhotels(response.data);
       })
       .catch((error) => {
-        console.log("Error fetching hotels", error);
+        //  console.log("Error fetching hotels", error);
       });
+    // get the details of assign hotel api using useffect hook.
   }, []);
-  console.log(assignhotels);
   const handleDelete = (id) => {
     instance
       .delete(`/assignhotel/${id}`)
@@ -27,10 +26,11 @@ function HotelAdminlist() {
         setAssignhotels(assignhotels.filter((hotel) => hotel._id !== id));
       })
       .catch((error) => {
-        console.log("Error deleting hotel", error);
+        // console.log("Error deleting hotel", error);
       });
+    // it is a function to delete the assigned hotels and hotel admin based on the id.
   };
-  console.log(assignhotels);
+
   return (
     <div className="hotel-admin-list-container">
       <Header />

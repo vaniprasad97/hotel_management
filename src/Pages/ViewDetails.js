@@ -9,8 +9,8 @@ function ViewDetails() {
   const [hotelsData, setHotelsData] = useState([]);
   const [bookingsData, setBookingsData] = useState([]);
   const { id } = useParams();
-  const [value, onChange] = useState(new Date());
-  console.log(bookingsData);
+  // const [value, onChange] = useState(new Date());
+
   useEffect(() => {
     instance
       .get("/hotels")
@@ -20,6 +20,7 @@ function ViewDetails() {
       .catch((error) => {
         console.error(error);
       });
+    // get the data from the hotels api and store the data in the hotelsdata.
   }, []);
 
   useEffect(() => {
@@ -31,13 +32,14 @@ function ViewDetails() {
       .catch((error) => {
         console.error(error);
       });
+    // use useeffect hook to get the date from bookings api based on the id.
   }, [id]);
 
-  const bookedDates = bookingsData.map((booking) => {
-    const checkInDate = new Date(booking.checkInDate);
-    const checkOutDate = new Date(booking.checkOutDate);
-    return { start: checkInDate, end: checkOutDate };
-  });
+  // const bookedDates = bookingsData.map((booking) => {
+  //   const checkInDate = new Date(booking.checkInDate);
+  //   const checkOutDate = new Date(booking.checkOutDate);
+  //   return { start: checkInDate, end: checkOutDate };
+  // });
 
   return (
     <div>

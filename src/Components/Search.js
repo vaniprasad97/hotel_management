@@ -15,7 +15,7 @@ const Search = ({ handleSearchResult }) => {
         setHotelsData(response.data);
       })
       .catch((error) => {
-        console.error(error);
+        //    console.error(error);
       });
     // useEffect hook that makes an GET request to retrieve a list of hotels from an API.
   }, []);
@@ -25,20 +25,6 @@ const Search = ({ handleSearchResult }) => {
     // function to handle the user input and store it in a state called searchText
   };
 
-  // const handleSearch = () => {
-  //   const searchResult = hotelsData.filter(
-  //     (hotel) =>
-  //       hotel.name.toLowerCase().includes(searchText.toLowerCase()) ||
-  //       hotel.location.toLowerCase().includes(searchText.toLowerCase())
-  //   );
-  //   setSearchresult(searchResult);
-  //   handleSearchResult(searchResult);
-  //   // The function first uses the filter() method to iterate over each hotel in the hotelsData array.
-  //   // it checks whether the name or location contain the search text entered by the user.
-  //   // The toLowerCase() method is for search case-insensitive.
-  //   // If a hotel matches the search query, it is added to a new array called searchResult.
-  //   // the handleSearchResult function is called and passed the searchResult array as an argument
-  // };
   const handleSearch = () => {
     const searchTextLower = searchText.toLowerCase();
     const searchResult = hotelsData.filter(
@@ -46,8 +32,14 @@ const Search = ({ handleSearchResult }) => {
         hotel.name.toLowerCase().includes(searchTextLower) ||
         hotel.location.toLowerCase().includes(searchTextLower)
     );
+
     setSearchresult(searchResult);
     handleSearchResult(searchResult);
+    // The function first uses the filter() method to iterate over each hotel in the hotelsData array.
+    // it checks whether the name or location contain the search text entered by the user.
+    // The toLowerCase() method is for search case-insensitive.
+    // If a hotel matches the search query, it is added to a new array called searchResult.
+    // the handleSearchResult function is called and passed the searchResult array as an argument
   };
 
   return (

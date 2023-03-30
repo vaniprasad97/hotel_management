@@ -12,9 +12,10 @@ import RoomList from "./Pages/RoomList";
 import BookingDetails from "./Pages/BookingDetails";
 import HotelAdminlist from "./Pages/HotelAdminlist";
 import AddnewUser from "./Pages/AddnewUser";
-import AddUsers from "./Pages/AddUsers";
+import AddUsers from "./Pages/Calendar";
 import HotelAdminBookingDetails from "./Pages/HotelAdminBookingDetails";
 import Add from "./Pages/Add";
+import RegistrationForm from "./Pages/RegistrationForm";
 
 function App() {
   return (
@@ -49,6 +50,7 @@ function App() {
         <Route path="/HotelAdminList" element={<HotelAdminlist />} />
         <Route path="/AddUsers" element={<AddUsers />} />
         <Route path="/Add" element={<Add />} />
+        <Route path="/RegistrationForm" element={<RegistrationForm />} />
 
         <Route
           path="/HotelAdminBookingDetails"
@@ -72,6 +74,7 @@ function ProtectedAdminRoute({ children, ...rest }) {
   ) {
     return children;
   } else {
+    alert("admin page can only be accessed by admin");
     return <Navigate to="/" />;
   }
 }
@@ -86,6 +89,7 @@ function ProtectedRoute({ children, ...rest }) {
   ) {
     return children;
   } else {
+    alert("hotel admin page can only be accessed by hoteladmin");
     return <Navigate to="/" />;
   }
 }

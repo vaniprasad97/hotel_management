@@ -18,16 +18,18 @@ function AddnewUser() {
         setHotels(response.data);
       })
       .catch((error) => {
-        console.log("Error fetching hotels", error);
-      });
+        // console.log("Error fetching hotels", error);
+      }); // use useeffect hook to get the details from the hotel api and stored it in a state hotels.
   }, []);
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
+    // handling the userinput of username and stored the userinput into the state username.
   };
 
   const handleHotelChange = (event) => {
     setSelectedHotel(event.target.value);
+    // handling the userinput of hotel and stored the userinput into the state selectedHotel.
   };
 
   const handleSubmit = (event) => {
@@ -53,8 +55,11 @@ function AddnewUser() {
       })
       .catch((error) => {
         setErrorMessage("Error adding hotel admin");
-        console.log("Error adding hotel admin:", error);
       });
+    //checks whether the username and selectedHotel variables are both truthy.
+    // If either of them is empty, it sets an error message using the setErrorMessage method and
+    //returns from the function. it pass the username and selected hotel to the assign hotel api.
+    // it shows success message for successful login and error message for unsuccesful login.
   };
 
   return (

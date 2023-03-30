@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import "../Styles/BookingForm.css";
 import moment from "moment";
-import CalendarComponent from "../Pages/AddUsers";
+import CalendarComponent from "../Pages/Calendar";
 
 function BookingForm() {
   const mark = ["04-03-2023", "03-03-2023", "05-03-2023"];
@@ -24,20 +24,16 @@ function BookingForm() {
   const [bookings, setBookings] = useState([]);
   const [disabledDates, setDisabledDates] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
-  console.log(hotels);
-  console.log(selectedRoomId);
-  console.log(selectedHotel);
-  console.log(rooms);
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
   const loggedInUser = localStorage.getItem("selectedUser");
-  console.log(loggedInUser);
-  const userObj1 = JSON.parse(loggedInUser);
-  const userid = userObj1.id;
+  const userObj1 = loggedInUser ? JSON.parse(loggedInUser) : null;
+  const userid = userObj1 ? userObj1.id : null;
 
   useEffect(() => {
     instance.get("/rooms").then((response) => {
       setRooms(response.data);
+      // use useefffect hook to get data from rooms api and stored in the state rooms
     });
 
     if (loggedInUser) {
@@ -45,18 +41,22 @@ function BookingForm() {
       setName(userObj.name);
       setUsername(userObj.username);
     }
+    // here checks if loggedin user exists. if the user exists store the name name state and
+    // username in the username state
   }, []);
 
   useEffect(() => {
     instance.get("/hotels").then((response) => {
       setHotels(response.data);
     });
+    // use effect hook to get data from hotels api and store it in a state variable called Hotels
   }, []);
 
   useEffect(() => {
     instance.get("/assignhotel").then((response) => {
       setAssignHotels(response.data);
     });
+    // use effect hook to get data from assignhotels api and store it in a state variable called assignHotels
   }, []);
 
   useEffect(() => {
@@ -70,6 +70,8 @@ function BookingForm() {
       });
       setDisabledDates(disabledDates);
     });
+    // used a use effect hook to get bookings api and set the checkin to checkout dates disabled and stored it in a state
+    // called disableddates
   }, []);
 
   const handleSubmit = (event) => {
@@ -105,38 +107,31 @@ function BookingForm() {
       hotelId: selectedHotel,
       UserID: userid,
     };
-
     instance.post("/bookings", data).then(() => {
       const updatedRooms = rooms.filter(
         (room) => room.roomName !== selectedRoomId
       );
-      console.log(updatedRooms);
       setRooms(updatedRooms);
-
       navigate("/BookingDetails");
-    });
+    }); // after all the validation, bookings data will post to the bookings api.
   };
 
   const handleHotelChange = (event) => {
     const hotelName = event.target.value;
-    console.log(assignhotels);
     const matcheddetails = assignhotels.find(
       (hoteldetails) => hoteldetails.hotelName == hotelName
     );
-    console.log(matcheddetails);
-
     setfilteredRooms(
       rooms.filter((room) => room.created_by == matcheddetails.adminId)
     );
-
     setSelectedHotel(hotelName);
-
     setRooms(filteredRooms);
-    console.log(filteredRooms);
+    // its a function to to show the rooms availables in a particular hotel and filter the rooms based on id and stored
+    // filtered rooms and hotelname to the state rooms and filtered rooms respectively.
   };
 
   return (
-    <div>
+    <div data-testid="booking-form">
       <Header />
       <Link to="/UserPage" relative="path">
         Back To User Page

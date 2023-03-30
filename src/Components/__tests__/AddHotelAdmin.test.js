@@ -48,6 +48,7 @@ describe("AddHotelAdmin component", () => {
     await waitFor(() =>
       expect(screen.getByText("Select a hotel:")).toBeInTheDocument()
     );
+    expect(screen.getByText("Select a hotel admin:")).toBeInTheDocument();
 
     fireEvent.change(screen.getByLabelText("Select a hotel:"), {
       target: { value: "2" },
@@ -55,5 +56,11 @@ describe("AddHotelAdmin component", () => {
     fireEvent.change(screen.getByLabelText("Select a hotel admin:"), {
       target: { value: "3" },
     });
+
+    // Wait for success message to appear
+    // const assignButton = screen.getByRole("button", { name: "Assign Hotel" });
+    // fireEvent.click(assignButton);
+    // const successMessage = screen.getByText("Hotel assigned successfully");
+    // expect(successMessage).toBeInTheDocument();
   });
 });

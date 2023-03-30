@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../Styles/LoginPage.css";
 import instance from "../axiosconfig";
+import { decrypt } from "../utlis/encrypt";
+
 function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [userType, setUserType] = useState("");
   const [error, setError] = useState("");
   const [userData, setuserData] = useState([]);
-  console.log(userData);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -18,18 +19,18 @@ function LoginPage() {
         setuserData(response.data);
       })
       .catch((error) => {
-        console.log("Error fetching hotels", error);
+        //  console.log("Error fetching hotels", error);
       });
+    // use effect hook to get the data from users api and stored in the state userData.
   }, []);
 
   const handleLogin = (event) => {
     event.preventDefault();
-
-    const user = userData[0].users.find(
-      (user) =>
-        user.username === username &&
-        user.password === password &&
-        user.type === userType
+    const user = userData.find(
+      (data) =>
+        data.username === username &&
+        decrypt(data.password) === password &&
+        data.type === userType
     );
     if (user) {
       if (user.type === "admin") {
@@ -49,6 +50,11 @@ function LoginPage() {
     //and userType match with any user data in the userData.users array using the find() method
     // If a user is found with matching credentials and type,
     //the function uses the navigate()  to redirect the user to the appropriate page based on their user type.
+  };
+
+  const handleSignup = () => {
+    navigate("/RegistrationForm");
+    // created a button signup and and it will navigate to the registration form
   };
 
   return (
@@ -87,7 +93,7 @@ function LoginPage() {
             >
               <option value="">Select User Type</option>
               {userData.length > 0 &&
-                userData[0].users.map((user) => (
+                userData.map((user) => (
                   <option key={user.id} value={user.type}>
                     {user.type}
                   </option>
@@ -97,6 +103,10 @@ function LoginPage() {
           <br />
           <button className="loginbutton" type="submit">
             Login
+          </button>
+          <button className="loginbutton" onClick={handleSignup}>
+            {" "}
+            Sign Up
           </button>
         </form>
         {error && <div className="error">{error}</div>}

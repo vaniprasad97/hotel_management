@@ -16,6 +16,7 @@ function RoomList() {
       .catch((error) => {
         console.error(error);
       });
+    // get the data from rooms api and store it in a state called setrooms using the useeffct hook.
   }, []);
 
   const handleDeleteRoom = (roomId) => {
@@ -25,6 +26,7 @@ function RoomList() {
         setRooms((prevRooms) => prevRooms.filter((room) => room._id !== roomId))
       )
       .catch((error) => console.error(error));
+    // delete rooms from the rooms api based on id and stored it in a state rooms
   };
 
   return (
@@ -43,7 +45,7 @@ function RoomList() {
         </thead>
         <tbody>
           {rooms.map((room) => (
-            <tr key={room._id}>
+            <tr key={room._id} data-testid="room">
               <td>{room.roomName}</td>
               <td>{room.roomType}</td>
               <td>{room.price}</td>

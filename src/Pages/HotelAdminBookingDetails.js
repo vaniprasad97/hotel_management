@@ -6,6 +6,7 @@ function HotelAdminBookingDetails() {
   const loggedInUser = localStorage.getItem("selectedUser");
 
   const userObj = loggedInUser ? JSON.parse(loggedInUser) : null;
+  //console.log(userObj);
   const [bookingsData, setBookingsData] = useState([]);
 
   useEffect(() => {
@@ -13,17 +14,19 @@ function HotelAdminBookingDetails() {
       instance
         .get("/bookings")
         .then((response) => {
+          console.log(response.data);
           // Filter out the bookings data based on the user ID
           const filteredBookings = response.data.filter(
-            (booking) => booking.userId === userObj.id
+            (booking) => booking.hotelname === userObj.hotelId
           );
+          console.log(filteredBookings);
           setBookingsData(filteredBookings);
         })
         .catch((error) => {
-          console.error(error);
+          //  console.error(error);
         });
     }
-  }, [userObj]);
+  }, []);
 
   return (
     <div>

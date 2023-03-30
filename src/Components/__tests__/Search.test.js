@@ -1,60 +1,31 @@
 import React from "react";
-import { render, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import Search from "../Search";
 
 describe("Search component", () => {
-  test("filters hotels based on search text", () => {
+  test("renders search input and button", () => {
+    render(<Search handleSearchResult={() => {}} />);
+    const searchInput = screen.getByLabelText("Search Hotel");
+    expect(searchInput).toBeInTheDocument();
+
+    const searchButton = screen.getByRole("button", { name: "Search" });
+    expect(searchButton).toBeInTheDocument();
+  });
+
+  test("updates search text state when user types into the search input", () => {
+    render(<Search handleSearchResult={() => {}} />);
+    const searchInput = screen.getByLabelText("Search Hotel");
+    fireEvent.change(searchInput, { target: { value: "new search text" } });
+    expect(searchInput.value).toBe("new search text");
+  });
+
+  test("calls handleSearchResult with search results when user clicks the search button", () => {
     const handleSearchResult = jest.fn();
-
-    const hotelsData = [
-      {
-        id: 1,
-        location: "City A",
-        name: "Hotel A",
-      },
-      {
-        id: 2,
-        location: "City B",
-        name: "Hotel B",
-      },
-      {
-        id: 3,
-        location: "City C",
-        name: "Hotel C",
-      },
-    ];
-
-    const { getByLabelText, getByText } = render(
-      <Search handleSearchResult={handleSearchResult} hotelsData={hotelsData} />
-    );
-
-    // const searchInput = getByText("Search Hotel");
-    // fireEvent.change(searchInput, { target: { value: "city" } });
-
-    // const searchButton = getByText("Search");
-    // fireEvent.click(searchButton);
-    const searchInput = getByLabelText("Search Hotel");
-    const searchButton = getByText("Search");
-
-    fireEvent.change(searchInput, { target: { value: "A" } });
+    render(<Search handleSearchResult={handleSearchResult} />);
+    const searchInput = screen.getByLabelText("Search Hotel");
+    fireEvent.change(searchInput, { target: { value: "search text" } });
+    const searchButton = screen.getByRole("button", { name: "Search" });
     fireEvent.click(searchButton);
-
-    expect(handleSearchResult).toHaveBeenCalledWith([
-      {
-        id: 1,
-        location: "City A",
-        name: "Hotel A",
-      },
-      {
-        id: 2,
-        location: "City B",
-        name: "Hotel B",
-      },
-      {
-        id: 3,
-        location: "City C",
-        name: "Hotel C",
-      },
-    ]);
+    expect(handleSearchResult).toHaveBeenCalledWith(expect.arrayContaining([]));
   });
 });

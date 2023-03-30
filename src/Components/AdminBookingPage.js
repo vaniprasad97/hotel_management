@@ -16,6 +16,7 @@ function AdminBookingPage() {
       .catch((error) => {
         //  console.error(error);
       });
+    // Get the data from the bookings api and store it in a state variable called bookingsData.
   }, []);
   return (
     <div>

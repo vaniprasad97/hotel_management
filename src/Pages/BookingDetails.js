@@ -14,10 +14,10 @@ function BookingDetails() {
       })
       .catch((error) => {
         // console.error(error);
-      });
+      }); // use useeffect hook to get the bookings data and stored in a state called bookings data.
   }, []);
   return (
-    <div>
+    <div data-testid="booking-details-page">
       <Header />
       <h1>Hotel Booked successfully.. The booking details are:</h1>
       <h1>Bookings</h1>

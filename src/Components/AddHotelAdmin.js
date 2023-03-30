@@ -11,16 +11,19 @@ function AddHotelAdmin() {
   const [successMessage, setSuccessMessage] = useState("");
   const [hotelAdmins, sethotelAdmins] = useState([]);
 
-  useEffect(() => {
-    instance
-      .get("/users")
-      .then((response) => {
-        sethotelAdmins(response.data);
-      })
-      .catch((error) => {
-        // console.log("Error fetching hotels", error);
-      });
-  }, []);
+  useEffect(
+    () => {
+      instance
+        .get("/users")
+        .then((response) => {
+          sethotelAdmins(response.data);
+        })
+        .catch((error) => {
+          // console.log("Error fetching hotels", error);
+        });
+    }, // used a useeffect hook to get the users api and store the value in a state called hotelAdmins.
+    []
+  );
 
   useEffect(() => {
     instance
@@ -103,7 +106,7 @@ function AddHotelAdmin() {
         <select id="admin" name="admin" onChange={handleAdminChange}>
           <option value="">Select hoteladmin</option>
           {hotelAdmins.length > 0 &&
-            hotelAdmins[0].users.map((user) => (
+            hotelAdmins.map((user) => (
               <option key={user.id} value={user.id}>
                 {user.username}
               </option>

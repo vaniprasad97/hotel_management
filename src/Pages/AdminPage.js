@@ -5,7 +5,9 @@ import { Link } from "react-router-dom";
 function AdminPage() {
   return (
     <div>
-      <Header />
+      <Header data-testid="header" />
+
+      {/* to be noted */}
       <h1>Welcome to AdminPage</h1>
       <table>
         <thead>

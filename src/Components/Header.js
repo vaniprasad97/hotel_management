@@ -9,7 +9,7 @@ const Header = () => {
       const userObj = JSON.parse(loggedInUser);
       firstWord = userObj.name.match(/\b(\w)/g).join("");
     } catch (error) {
-      console.error("Error parsing user data from local storage:", error);
+      // console.error("Error parsing user data from local storage:", error);
     }
     // this retrieves the user data from local storage,
     // extracts the first letter of the user's name, and assigns it to a variable called firstWord.
@@ -18,6 +18,7 @@ const Header = () => {
   const navigate = useNavigate();
 
   function signOut() {
+    localStorage.removeItem("loggedInUser");
     navigate("/");
     // this function is to sign out the user from the application and navigate them to the home page
   }

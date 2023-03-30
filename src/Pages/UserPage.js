@@ -16,7 +16,7 @@ function UserPage() {
         setHotels(response.data);
       })
       .catch((error) => {
-        console.error(error);
+        // console.error(error);
       });
     // useEffect hook that makes an HTTP GET request to retrieve a list of hotels from  api/hotels
     // ans store it in a state called hotels.
@@ -31,10 +31,8 @@ function UserPage() {
         {hotels.map((hotel) => (
           <li key={hotel.id}>
             <h3>{hotel.name}</h3>
-            <Link to={`/ViewDetails/${hotel._id}`}>
-              ViewDetails and Available dates
-            </Link>
-            <div>
+            <Link to={`/ViewDetails/${hotel._id}`}>ViewDetails</Link>
+            <div className="bookbutton">
               <Link
                 to={`/BookingForm/${hotel._id}`}
                 state={{ hotelName: hotel.name }}

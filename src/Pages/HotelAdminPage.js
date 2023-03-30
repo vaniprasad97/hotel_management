@@ -38,13 +38,12 @@ function HotelAdminPage() {
       created_by: adminId,
       created_at: now.toISOString(),
     };
-    // Check if the roomName already exists in the Assignhotel array
+    // Check if the roomName already exists in the Assignhotel array ans stores the error message in the state setmessage.
     const roomExists = assignhotel.find((hotel) => hotel.roomName === roomName);
     if (roomExists) {
       setMessage("Hotel with the same name already exists.");
       return;
     }
-
     instance
       .post("/rooms", data)
       .then((response) => {

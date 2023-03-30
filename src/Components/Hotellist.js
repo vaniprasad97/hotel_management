@@ -26,7 +26,7 @@ const HotelList = () => {
         setHotels(response.data);
       })
       .catch((error) => {
-        console.error(error);
+        //   console.error(error);
       });
     // fetch the data from the api/hotels and store it in a state called Hotels
   }, []);
@@ -97,7 +97,7 @@ const HotelList = () => {
             });
           })
           .catch((error) => {
-            console.error(error);
+            //   console.error(error);
           });
       }
     } else {
@@ -130,7 +130,7 @@ const HotelList = () => {
         setShowModal(false);
       })
       .catch((error) => {
-        console.error(error);
+        // console.error(error);
       });
     // Inside the function, the instance.delete() method is called with a URL parameter to
     //delete the hotel with a specific id (hotelToDelete). If the delete request is successful,
@@ -139,7 +139,7 @@ const HotelList = () => {
 
   return (
     <div>
-      <div>
+      <div data-testid="hotel-list">
         <Header />
         <Link to="/AdminPage" relative="path">
           Back To Admin Page
