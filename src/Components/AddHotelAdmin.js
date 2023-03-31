@@ -55,6 +55,7 @@ function AddHotelAdmin() {
   };
   const handleSubmit = (event) => {
     event.preventDefault();
+
     const selectedHotelObj = hotels.find(
       (hotel) => hotel._id === selectedHotel
     );

@@ -30,6 +30,10 @@ function HotelAdminPage() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    if (!roomName || !roomType || !price || !guests) {
+      setMessage("Please fill all the fields.");
+      return;
+    }
     const data = {
       roomName,
       roomType,

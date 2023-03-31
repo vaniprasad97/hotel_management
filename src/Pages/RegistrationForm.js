@@ -12,23 +12,67 @@ function RegistrationForm() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = {
-      name: username,
-      type: "user",
-      username,
-      password: encrypt(password),
-    };
+    let validationErrors = [];
+
+    // Validate username
+    const usernameRegex = /^[a-zA-Z0-9_-]+$/;
+    if (!usernameRegex.test(username)) {
+      validationErrors.push(
+        "Username can only contain letters, numbers, underscores, and dashes."
+      );
+    }
+
+    // Validate password
+    if (password.length < 3) {
+      validationErrors.push("Password must be at least 5 characters long.");
+    }
+    if (password === username) {
+      validationErrors.push("Password cannot be the same as username.");
+    }
+
+    // Validate confirm password
+    if (password !== confirmPassword) {
+      validationErrors.push("Passwords do not match.");
+    }
+
+    // Check if user already exists
     instance
-      .post("/users", data)
+      .get("/users")
       .then((response) => {
-        setError("User Registered successfully");
+        const users = response.data;
+        const existingUser = users.find((user) => user.username === username);
+        if (existingUser) {
+          validationErrors.push("Username already exists.");
+        }
+
+        // If there are validation errors, display them and prevent form submission
+        if (validationErrors.length > 0) {
+          setError(validationErrors.join(" "));
+          return;
+        }
+
+        // If all validations pass, submit the data to the API
+        const data = {
+          username: username,
+          type: "user",
+          username,
+          password: encrypt(confirmPassword),
+          name: email,
+        };
+        instance
+          .post("/users", data)
+          .then((response) => {
+            setError("User Registered successfully");
+          })
+          .catch((error) => {
+            setError("Error registering:", error);
+          });
       })
       .catch((error) => {
-        setError("Error registering:", error);
+        setError("Error checking if user already exists:", error);
       });
-    // while submitting the form. it will post all the details to the user api. where username is the userinput that
-    // stored in a state username. pass the type default as user and password.
   };
+
   return (
     <div className="registration-form">
       <h2>Register</h2>
@@ -43,9 +87,9 @@ function RegistrationForm() {
         </label>
         <br />
         <label>
-          Email:
+          enter your name:
           <input
-            type="email"
+            type="text"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
           />

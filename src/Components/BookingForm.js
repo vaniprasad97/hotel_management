@@ -9,7 +9,7 @@ import CalendarComponent from "../Pages/Calendar";
 
 function BookingForm() {
   const mark = ["04-03-2023", "03-03-2023", "05-03-2023"];
-
+  const [range, setRange] = useState();
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [checkInDate, setCheckInDate] = useState();
@@ -24,6 +24,7 @@ function BookingForm() {
   const [bookings, setBookings] = useState([]);
   const [disabledDates, setDisabledDates] = useState([]);
   const [errorMessage, setErrorMessage] = useState("");
+  const [guestAllowed, setGuestAllowed] = useState([]);
 
   const navigate = useNavigate();
   const loggedInUser = localStorage.getItem("selectedUser");
@@ -58,6 +59,12 @@ function BookingForm() {
     });
     // use effect hook to get data from assignhotels api and store it in a state variable called assignHotels
   }, []);
+  useEffect(() => {
+    instance.get("/rooms").then((response) => {
+      setGuestAllowed(response.data);
+    });
+    // use effect hook to get data from assignhotels api and store it in a state variable called assignHotels
+  }, []);
 
   useEffect(() => {
     instance.get("/bookings").then((response) => {
@@ -76,10 +83,18 @@ function BookingForm() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    // Check if check-in and check-out dates are the same
-    if (checkInDate === checkOutDate) {
-      setErrorMessage("Check-out date cannot be the same as check-in date");
+    if (!noOfGuests) {
+      setErrorMessage("Please enter the number of guests");
+      return;
+    }
+    if (
+      !name ||
+      !username ||
+      !noOfGuests ||
+      !selectedRoomId ||
+      !selectedHotel
+    ) {
+      setErrorMessage("Please fill in all the fields");
       return;
     }
 
@@ -92,28 +107,44 @@ function BookingForm() {
           (checkOutDate >= booking.checkInDate &&
             checkOutDate <= booking.checkOutDate))
     );
+
     if (existingBooking) {
       setErrorMessage("This room is already booked on that date");
       return;
     }
-
+    const selectedRoom = guestAllowed.find(
+      (room) => room.roomName === selectedRoomId
+    );
+    if (noOfGuests > selectedRoom.guests) {
+      setErrorMessage(
+        "Number of guests exceeds the allowed limit in the selected room"
+      );
+      return;
+    }
+    console.log(selectedRoom);
     const data = {
       name,
       username,
-      checkInDate,
-      checkOutDate,
+      checkInDate: range && range.from ? range.from : undefined,
+      checkOutDate: range && range.to ? range.to : undefined,
       noOfGuests,
       roomId: selectedRoomId,
       hotelId: selectedHotel,
       UserID: userid,
     };
+    if (!data.checkInDate || !data.checkOutDate) {
+      setErrorMessage("Please select both check-in and check-out dates.");
+      return;
+    }
     instance.post("/bookings", data).then(() => {
       const updatedRooms = rooms.filter(
         (room) => room.roomName !== selectedRoomId
       );
       setRooms(updatedRooms);
       navigate("/BookingDetails");
-    }); // after all the validation, bookings data will post to the bookings api.
+    });
+
+    // after all the validation, bookings data will post to the bookings api.
   };
 
   const handleHotelChange = (event) => {
@@ -128,6 +159,10 @@ function BookingForm() {
     setRooms(filteredRooms);
     // its a function to to show the rooms availables in a particular hotel and filter the rooms based on id and stored
     // filtered rooms and hotelname to the state rooms and filtered rooms respectively.
+  };
+
+  const handleChangeDatePicker = (event) => {
+    setRange(event);
   };
 
   return (
@@ -161,7 +196,7 @@ function BookingForm() {
           <label htmlFor="room">Available Rooms:</label>
           <select
             id="room"
-            value={selectedRoomId}
+            // value={selectedRoomId}
             onChange={(event) => setSelectedRoomId(event.target.value)}
           >
             {filteredRooms.map((room) => (
@@ -181,30 +216,18 @@ function BookingForm() {
             />
           </label>
         </div>
-
-        <div>
-          <label htmlFor="room">checkInDate</label>
-          <input
-            type="date"
-            id="checkInDate"
-            value={checkInDate}
-            onChange={(event) => setCheckInDate(event.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="room">checkOutDate:</label>
-          <input
-            type="date"
-            id="checkOutDate"
-            value={checkOutDate}
-            onChange={(event) => setCheckOutDate(event.target.value)}
-          />
-        </div>
-        <CalendarComponent selectedHotelId={selectedHotel} />
+        <label htmlFor="calender">Select the checkin and checkout date</label>
+        <CalendarComponent
+          selectedHotel={selectedHotel}
+          selectedRoomId={selectedRoomId}
+          handleChangeDate={handleChangeDatePicker}
+          selectedRange={range}
+        />
 
         <button className="BookingButton" type="submit">
           Book Now
         </button>
+
         {errorMessage && <div className="error">{errorMessage}</div>}
         <Link to={"/BookingDetails"}> Show the booking details</Link>
       </form>

@@ -5,7 +5,6 @@ import instance from "../axiosconfig";
 import React, { useEffect, useState } from "react";
 
 export default function Example(props) {
-  const [range, setRange] = useState();
   const [bookingsData, setBookingsData] = useState([]);
   const [disabledDates, setDisabledates] = useState([]);
   const [filteredDetail, setFilteredDetails] = useState([]);
@@ -21,7 +20,9 @@ export default function Example(props) {
       .get("/bookings")
       .then((response) => {
         const filteredDetails = response.data.filter(
-          (item) => item.hotelId == props.selectedHotelId
+          (item) =>
+            item.roomId == props.selectedRoomId &&
+            item.hotelId == props.selectedHotel
         );
         const disabledDates = filteredDetails.map((booking) => {
           return {
@@ -41,7 +42,7 @@ export default function Example(props) {
     // match the props.selectedHotelId value.It then transforms the booking data into an array of disabled dates in the
     //format of from: to:, which is needed for a date picker component. It also sets the filteredDetails,disabledates,
     // and bookingsData states using the setFilteredDetails, setDisabledates, and setBookingsData methods respectively.
-  }, [props.selectedHotelId]);
+  }, [props.selectedRoomId, props.selectedHotel]);
 
   const getDisabledDays = () => {
     const disabledDates = filteredDetail.map((booking) => {
@@ -56,12 +57,14 @@ export default function Example(props) {
 
   return (
     <DayPicker
-      mode="single"
+      onSelect={props.handleChangeDate}
+      // selected={}
+      mode="range"
       min={3}
       max={6}
       modifiers={{ booked: getDisabledDays() }}
       modifiersStyles={{ booked: bookedStyle }}
-      // selected={range}
+      selected={props.selectedRange}
       // onSelect={setRange}
       footer={footer}
       disabled={getDisabledDays()}

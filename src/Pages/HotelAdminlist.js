@@ -7,12 +7,24 @@ import "../Styles/HotelAdminPage.css";
 
 function HotelAdminlist() {
   const [assignhotels, setAssignhotels] = useState([]);
+  const [users, setUsers] = useState([]);
 
   useEffect(() => {
     instance
       .get("/assignhotel")
       .then((response) => {
         setAssignhotels(response.data);
+      })
+      .catch((error) => {
+        //  console.log("Error fetching hotels", error);
+      });
+    // get the details of assign hotel api using useffect hook.
+  }, []);
+  useEffect(() => {
+    instance
+      .get("/users")
+      .then((response) => {
+        setUsers(response.data);
       })
       .catch((error) => {
         //  console.log("Error fetching hotels", error);
@@ -44,6 +56,26 @@ function HotelAdminlist() {
           </tr>
         </thead>
         <tbody>
+          {assignhotels.map((hotel) => {
+            const matchedUser = users.find((User) => User.id == hotel.adminId);
+            console.log(matchedUser);
+            return (
+              <tr key={hotel._id}>
+                <td>{matchedUser.username}</td>
+                <td>{hotel.hotelName}</td>
+                <td>
+                  <button
+                    className="assignhotelbuuton"
+                    onClick={() => handleDelete(hotel._id)}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+        {/* <tbody>
           {assignhotels.map((hotel) => (
             <tr key={hotel._id}>
               <td>{hotel._id}</td>
@@ -58,7 +90,7 @@ function HotelAdminlist() {
               </td>
             </tr>
           ))}
-        </tbody>
+        </tbody> */}
       </table>
     </div>
   );
